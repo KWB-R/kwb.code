@@ -5,6 +5,9 @@ Description: This package allows you to parse your R scripts and to calculate so
 Authors@R: c(person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
            person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = c("cph")))
+Imports: kwb.utils
+Remotes: 
+    github::kwb-r/kwb.utils
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -13,3 +16,4 @@ URL: https://github.com/KWB-R/kwb.code
 BugReports: https://github.com/KWB-R/kwb.code/issues
 Suggests: 
     covr
+RoxygenNote: 6.0.1
