@@ -1,6 +1,6 @@
 # duplicatesToFiles ------------------------------------------------------------
 #' @importFrom kwb.utils catIf
-#' @importFrom kwb.utils createDirAndReturnPath
+#' @importFrom kwb.utils createDirectory
 #' @importFrom kwb.utils selectColumns
 #' @importFrom kwb.utils selectElements
 duplicatesToFiles <- function
@@ -21,7 +21,7 @@ duplicatesToFiles <- function
 
   targetDir <- file.path(targetRoot, "clean", functionName)
 
-  targetDir <- createDirAndReturnPath(targetDir, dbg = FALSE)
+  targetDir <- createDirectory(targetDir, dbg = FALSE)
 
   contents <- lapply(functionDefs, function(functionDef) {
     deparse(functionDef[[3]])

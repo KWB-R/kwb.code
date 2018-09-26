@@ -26,7 +26,7 @@ url.base <- "https://raw.githubusercontent.com/hsonne/blockrand2/master/R/"
 urls <- paste0(url.base, c("blockrand2_create.R", "blockrand2_main.R"))
 
 targetdir <- file.path(tempdir(), "blockrand2")
-targetdir <- kwb.utils::createDirAndReturnPath(targetdir)
+targetdir <- kwb.utils::createDirectory(targetdir)
 
 for (url in urls) {
   download.file(url, file.path(targetdir, basename(url)))
