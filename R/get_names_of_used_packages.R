@@ -6,6 +6,10 @@
 #' @param pattern regular expression matching the names of the files to be
 #'   considered
 #'
+#' @importFrom kwb.utils catAndRun
+#' @importFrom kwb.utils extractSubstring
+#' @importFrom kwb.utils multiSubstitute
+#' 
 #' @export
 #'
 get_names_of_used_packages <- function(root_dir, pattern = "[.][rR](md)?$")
@@ -14,7 +18,7 @@ get_names_of_used_packages <- function(root_dir, pattern = "[.][rR](md)?$")
     root_dir, pattern, full.names = TRUE, recursive = TRUE
   )
 
-  package_usages <- lapply(script_paths, function(file) kwb.utils::catAndRun(
+  package_usages <- lapply(script_paths, function(file) catAndRun(
     paste("Analysing", file),
     grep("library", readLines(file), value = TRUE)
   ))
@@ -23,9 +27,9 @@ get_names_of_used_packages <- function(root_dir, pattern = "[.][rR](md)?$")
 
   library_pattern <- "library\\(([^)]+)\\)"
 
-  package_names <- kwb.utils::extractSubstring(library_pattern, usage_lines, 1)
+  package_names <- extractSubstring(library_pattern, usage_lines, 1)
 
-  packages <- sort(unique(kwb.utils::multiSubstitute(package_names, list(
+  packages <- sort(unique(multiSubstitute(package_names, list(
     "^\"|\"$" = "",
     "[\",].*$" = ""
   ))))

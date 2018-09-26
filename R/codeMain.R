@@ -9,7 +9,7 @@
 #'
 #' @export
 #'
-#' @importFrom kwb.utils catIf
+#' @importFrom kwb.utils catAndRun
 #'
 #' @seealso \code{\link{to_full_script_info}}
 #'
@@ -50,11 +50,15 @@ parse_scripts <- function
 )
 {
   trees <- lapply(scripts, function(x) {
+    
     file <- file.path(root, x)
-    catIf(dbg, "Reading", file, "... ")
-    content <- readLines(file, warn = FALSE)
-    catIf(dbg, "ok.\n")
+    
+    content <- catAndRun(
+      paste("Reading", file), dbg = dbg, readLines(file, warn = FALSE)
+    )
+
     expressions <- try(parse(text = content))
+    
     structure(expressions, n.lines = length(content))
   })
 

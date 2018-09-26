@@ -1,7 +1,8 @@
 # normaliseFunction ------------------------------------------------------------
+#' @importFrom kwb.utils printIf
 normaliseFunction <- function(x, dbg = FALSE)
 {
-  kwb.utils::printIf(dbg, x, "Original")
+  printIf(dbg, x, "Original")
 
   # Split the function assignment or raise an error
   parts <- split_function_assignment(x)
@@ -30,6 +31,7 @@ getNewPairlist <- function(x, version = 2)
 
   # Create lookup vector for the renaming
   renames <- normalNames(sum(toRename), version)
+  
   names(renames) <- argnames[toRename]
 
   # Modify the argument list of the function
@@ -46,10 +48,15 @@ normalNames <- function(n, version = 1)
   x <- seq_len(n)
 
   if (version == 1) {
+    
     paste0("arg_", x)
+    
   } else if (version == 2) {
+    
     paste0(".", LETTERS[x], ".")
+    
   } else {
+    
     paste0(".", letters[x], ".")
   }
 }
@@ -64,18 +71,21 @@ replaceNames <- function(expr, keyvals = NULL, dbg = FALSE)
   catIf(dbg, "replaceNames(", deparse(expr)[1], ")...\n")
 
   if (is_function_assignment(expr)) {
+    
     return(normaliseFunction(x = expr))
   }
 
   for (i in seq_along(expr)) {
 
     if (is_function_assignment(expr[[i]])) {
+      
       expr[[i]] <- normaliseFunction(x = expr[[i]])
-    }
-    else if (is.call(expr[[i]])) {
+      
+    } else if (is.call(expr[[i]])) {
+      
       expr[[i]][-1L] <- Recall(expr[[i]][-1L], keyvals)
-    }
-    else if (is.name(expr[[i]])) {
+      
+    } else if (is.name(expr[[i]])) {
 
       varname <- deparse(expr[[i]])
 

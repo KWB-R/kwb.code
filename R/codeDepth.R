@@ -17,14 +17,6 @@ get_depth_expression <- function(e)
     return (0)
   }
 
-  # for (j in seq_along(e)) {
-  #
-  #   cat(j, " ")
-  #
-  #   (element <- e[[j]])
-  #
-  #   get_depth_any(element)
-  # }
   lapply(e, get_depth_any)
 }
 
@@ -40,9 +32,8 @@ get_depth_any <- function(x)
 
     get_depth_call(x)
 
-  } else if (is.name(x) ||
-             is.character(x) ||
-             is.numeric(x)) {
+  } else if (is.name(x) || is.character(x) || is.numeric(x)) {
+    
     return (0)
 
   } else {
@@ -141,29 +132,36 @@ get_depth_call_usual <- function(x)
 get_depth <- function(e, depth = 0)
 {
   if (is_assignment(e)) {
+    
     get_depth(e = split_assignment(e)$rightSide, depth + 1)
-  }
-  else if (is.call(e)) {
+    
+  } else if (is.call(e)) {
 
-    if (is_function_def_call(e)) {
-      parts <- split_function_def_call(e)
+    parts <- if (is_function_def_call(e)) {
+      
+      split_function_def_call(e)
+      
     } else {
-      parts <- list(args = as.list(e)[-1], bodyExpressions = NULL)
+      
+      list(args = as.list(e)[-1], bodyExpressions = NULL)
     }
 
     depths <- numeric()
 
     if (! is.null(parts$args)) {
+      
       depths <- c(depths, sapply(parts$args, get_depth, depth + 1))
     }
+    
     if (! is.null(parts$bodyExpressions)) {
+      
       depths <- c(depths, sapply(parts$bodyExpressions, get_depth, depth + 1))
     }
 
     max(depths)
-    #e <- args[[1]]
-    #class(e)
+    
   } else  {
+    
     message("This must be a class of depth 0: ", hsQuoteChr(class(e)))
   }
 }

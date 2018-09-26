@@ -55,9 +55,9 @@ split_function_def_call <- function(functionCall)
   expressions <- as.list(body)
   
   bodyClass <- class(body)
-  #bodyClass <- as.character(body[[1]])[1]
-  
+
   if (bodyClass == "{") {
+    
     expressions <- expressions[-1]
   }
   
@@ -75,6 +75,6 @@ split_assignment <- function(assignment)
   
   list(
     leftSide = assignment[[2]], 
-    rightSide = assignment[[3]] # as.list(assignment)[[3]]
+    rightSide = assignment[[3]]
   )
 }

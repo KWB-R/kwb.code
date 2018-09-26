@@ -1,6 +1,5 @@
 # writeContentsToLessFiles -----------------------------------------------------
-writeContentsToLessFiles <- function
-(
+writeContentsToLessFiles <- function(
   contents, targetDir, functionName, dbg = TRUE
 )
 {
@@ -20,7 +19,9 @@ writeContentsToLessFiles <- function
 
     # Write this content
     file <- targetFile(targetDir, paste0(functionName, "__v"), i)
+    
     headerLines <- paste("# found in", names(oneLineContents[selected]))
+    
     writeContentToFile(content, file, headerLines, dbg = dbg)
 
     # Remove this and the identical contents
@@ -38,11 +39,13 @@ targetFile <- function(targetDir, functionName, i)
 }
 
 # writeContentToFile -----------------------------------------------------------
+#' @importFrom kwb.utils catAndRun
 writeContentToFile <- function(content, file, headerLines, dbg = TRUE)
 {
-  catIf(dbg, "Writing function to", file, "...")
-  writeLines(c(headerLines, content), file)
-  catIf(dbg, "ok.\n")
+  catAndRun(
+    paste("Writing function to", file), dbg = dbg,
+    writeLines(c(headerLines, content), file)
+  )
 }
 
 # writeContentsToFiles ---------------------------------------------------------

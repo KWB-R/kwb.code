@@ -10,5 +10,6 @@ filter_for <- function(x, FUN.filter, ...)
 removeAttribute <- function(x, which)
 {
   attr(x, which) <- NULL
+  
   x
 }
