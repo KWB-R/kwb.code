@@ -10,6 +10,6 @@ This package allows you to parse your R scripts and to calculate some staticstic
 
 ## Documentation
 
-Release: [https:://kwb-r.github.io/kwb.code](https:://kwb-r.github.io/kwb.code)
+Release: [https://kwb-r.github.io/kwb.code](https://kwb-r.github.io/kwb.code)
 
-Development: [https:://kwb-r.github.io/kwb.code/dev](https:://kwb-r.github.io/kwb.code/dev)
+Development: [https://kwb-r.github.io/kwb.code/dev](https://kwb-r.github.io/kwb.code/dev)
