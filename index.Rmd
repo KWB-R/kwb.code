@@ -1,30 +1,14 @@
----
-output: github_document
----
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-[![Appveyor build Status](https://ci.appveyor.com/api/projects/status/github/KWB-R/kwb.code?branch=master&svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-code/branch/master)
+[![Appveyor build Status](https://ci.appveyor.com/api/projects/status/knce4t2sgwt6hr86/branch/master?svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-code/branch/master)
 [![Travis build Status](https://travis-ci.org/KWB-R/kwb.code.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.code)
 [![codecov](https://codecov.io/github/KWB-R/kwb.code/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.code)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
 
-# kwb.code
-
 This package allows you to parse your R scripts and to calculate some staticstics on your code.
 
 ## Installation
 
-Install the package from github: 
+Install the package from Github: 
 ```{r eval = FALSE}
 #install.packages("devtools")
 devtools::install_github("kwb-r/kwb.code")
@@ -46,9 +30,3 @@ packages <- kwb.code::get_names_of_used_packages(root_dir)
 # Show the names of the packages
 packages
 ```
-
-## Documentation
-
-Release: [https://kwb-r.github.io/kwb.code](https://kwb-r.github.io/kwb.code)
-
-Development: [https://kwb-r.github.io/kwb.code/dev](https://kwb-r.github.io/kwb.code/dev)

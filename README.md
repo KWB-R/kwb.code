@@ -1,24 +1,20 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Appveyor build Status](https://ci.appveyor.com/api/projects/status/github/KWB-R/kwb.code?branch=master&svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-code/branch/master) [![Travis build Status](https://travis-ci.org/KWB-R/kwb.code.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.code) [![codecov](https://codecov.io/github/KWB-R/kwb.code/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.code) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
 
-kwb.code
-========
+# kwb.code
 
 This package allows you to parse your R scripts and to calculate some staticstics on your code.
 
-Installation
-------------
+## Installation
 
-Install the package from github:
+Install the package from Github:
 
 ``` r
 #install.packages("devtools")
 devtools::install_github("kwb-r/kwb.code")
 ```
 
-Basic Usage
------------
+## Basic Usage
 
 If you have a lot of R scripts and you want to know what different packages are loaded from within your scripts, you may use the function `get_names_of_used_packages`:
 
@@ -33,8 +29,7 @@ packages <- kwb.code::get_names_of_used_packages(root_dir)
 packages
 ```
 
-Documentation
--------------
+## Documentation
 
 Release: <https://kwb-r.github.io/kwb.code>
 
