@@ -10,8 +10,8 @@ This package allows you to parse your R scripts and to calculate some staticstic
 
 Install the package from Github: 
 ```{r eval = FALSE}
-#install.packages("devtools")
-devtools::install_github("kwb-r/kwb.code")
+#install.packages("remotes")
+remotes::install_github("kwb-r/kwb.code")
 ```
 
 ## Basic Usage

@@ -15,5 +15,6 @@ ByteCompile: true
 URL: https://github.com/KWB-R/kwb.code
 BugReports: https://github.com/KWB-R/kwb.code/issues
 Suggests: 
-    covr
+    covr,
+    testthat
 RoxygenNote: 6.1.0
