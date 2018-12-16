@@ -2,6 +2,7 @@
 
 export(get_full_function_info)
 export(get_names_of_used_packages)
+export(get_string_constants_in_scripts)
 export(parse_scripts)
 export(to_full_script_info)
 importFrom(kwb.utils,catAndRun)
