@@ -82,7 +82,12 @@ matches_function <- function(
   
   if (! (n == 1 || n == 3)) {
    
-    stop("Not expected: n =  ", n) 
+    message(sprintf(
+      "Not expected: n = %d, str(x) = %s", 
+      n, utils::capture.output(utils::str(x))
+    )) 
+    
+    return(FALSE)
   }
   
   if (n == 3) {

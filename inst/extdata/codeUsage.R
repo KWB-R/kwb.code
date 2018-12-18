@@ -1,11 +1,11 @@
 # M A I N ----------------------------------------------------------------------
 if (FALSE)
 {
-  library(dplyr)
-
   # Required on English systems
   Sys.setlocale(locale = "C")
   
+  library(dplyr)
+
   # Define different roots
   root_package_fakin <- system.file(package = "kwb.fakin")
   root_rdev <- "~/Desktop/R-Development"
@@ -13,11 +13,13 @@ if (FALSE)
 
   # Parse script(s) into a tree structure
   tree <- kwb.code::parse_scripts(root = "C:/Users/hsonne/Documents/R-Development")
-  tree <- kwb.code::parse_scripts(root = "~/Desktop/R-Development")
+  tree <- kwb.code::parse_scripts(root = "~/Desktop/R-Development/RScripts")
   tree <- kwb.code::parse_scripts(root, scripts = "extdata/scripts/create_treemaps.R")
   tree <- kwb.code::parse_scripts(root)
   
   # Compare different versions of get_function_call_frequency()
+  tree <- tree[sapply(tree, is.expression)]
+  
   stats1 <- kwb.fakin:::get_function_call_frequency(tree, simple = TRUE) %>%
     bind_rows(.id = "script")
   
@@ -27,11 +29,18 @@ if (FALSE)
   stats1
   stats2
   
-  used_functions <- kwb.fakin::get_package_function_usage(
-    tree, package = "kwb.utils"
+  used1 <- kwb.fakin::get_package_function_usage(
+    tree, package = "kwb.utils", simple = FALSE
   )
   
-  View(package_function_usage)
+  used2 <- kwb.fakin::get_package_function_usage(
+    tree, package = "kwb.utils", simple = TRUE
+  )
+  
+  used <- merge(used1, used2, by = "name", all = TRUE)
+  used <- used[, kwb.utils::pairwise(names(used), split = "[.]")]
+  
+  View(used)
   
   stats <- dplyr::full_join(stats1, stats2, by = c("script", "name")) %>%
     filter(is.na(count.x) | is.na(count.y) | count.x != count.y)
