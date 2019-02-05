@@ -29,6 +29,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Get Frequency of String Constant Usage in R Scripts — get_string_constants_in_scripts" />
 
@@ -89,6 +95,12 @@
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -145,9 +157,9 @@ as possible.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>root</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"kwb.code"</span>)
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'>get_string_constants_in_scripts</span>(<span class='no'>root</span>)</div><div class='output co'>#&gt; Splitting paths ... ok. 
-#&gt; Removing the first 7 path segments ... ok. 
-#&gt; Reading /home/travis/build/KWB-R/kwb.code/inst/extdata/codeUsage.R ... ok. </div><div class='input'>
+<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'>get_string_constants_in_scripts</span>(<span class='no'>root</span>)</div><div class='output co'>#&gt; Splitting paths ... ok. (0.00s) 
+#&gt; Removing the first 7 path segments ... ok. (0.00s) 
+#&gt; Reading /home/travis/build/KWB-R/kwb.code/inst/extdata/codeUsage.R ... ok. (0.00s) </div><div class='input'>
 <span class='co'># Get paths to files from "file database" stored in attribute "file_db"</span>
 <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.utils/topics/getAttribute'>getAttribute</a></span>(<span class='no'>constants</span>, <span class='st'>"file_db"</span>)</div><div class='output co'>#&gt; $files
 #&gt;                                                file_id   file_name folder_id
@@ -184,6 +196,23 @@ as possible.</p></td>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '2fb161bf4f34749916b6b1cd20220c18',
+    indexName: 'kwb_code',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>
