@@ -43,3 +43,7 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+branches:
+  except:
+    - gh-pages
