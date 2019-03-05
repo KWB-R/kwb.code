@@ -48,7 +48,8 @@ extract_from_parse_tree <- function(
   }
 
   # Do we have to climb further branches up?  
-  if (is.list(x) || length(x) > 1) {
+  #if (is.list(x) || length(x) > 1) {
+  if (is.expression(x) || is.list(x) || length(x) > 1) {
     
     c(element, unlist(lapply(seq_along(x), function(i) extract_from_parse_tree(
       x = x[[i]], matches = matches, dbg = dbg, path = c(path, i), 
