@@ -159,11 +159,15 @@ as possible.</p></td>
     <pre class="examples"><div class='input'><span class='no'>root</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"kwb.code"</span>)
 <span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'>get_string_constants_in_scripts</span>(<span class='no'>root</span>)</div><div class='output co'>#&gt; Splitting paths ... ok. (0.00s) 
 #&gt; Removing the first 7 path segments ... ok. (0.00s) 
-#&gt; Reading /home/travis/build/KWB-R/kwb.code/inst/extdata/codeUsage.R ... ok. (0.00s) </div><div class='input'>
+#&gt; Reading /home/travis/build/KWB-R/kwb.code/inst/extdata/codeUsage.R ... ok. (0.00s) 
+#&gt; Reading /home/travis/build/KWB-R/kwb.code/inst/extdata/testcalls_1.R ... ok. (0.00s) 
+#&gt; Reading /home/travis/build/KWB-R/kwb.code/inst/extdata/testcalls_2.R ... ok. (0.00s) </div><div class='input'>
 <span class='co'># Get paths to files from "file database" stored in attribute "file_db"</span>
 <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.utils/topics/getAttribute'>getAttribute</a></span>(<span class='no'>constants</span>, <span class='st'>"file_db"</span>)</div><div class='output co'>#&gt; $files
-#&gt;                                                file_id   file_name folder_id
-#&gt; /home/travis/build/KWB-R/kwb.code/inst/extdata file_01 codeUsage.R folder_01
+#&gt;   file_id     file_name folder_id
+#&gt; 1 file_01   codeUsage.R folder_01
+#&gt; 2 file_02 testcalls_1.R folder_01
+#&gt; 3 file_03 testcalls_2.R folder_01
 #&gt; 
 #&gt; $folders
 #&gt;   folder_id folder_path
