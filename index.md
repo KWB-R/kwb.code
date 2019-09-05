@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/github/KWB-R/kwb.code/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.code)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3385170.svg)](https://doi.org/10.5281/zenodo.3385170)
 
 This package allows you to parse your R scripts and to calculate some staticstics on your code.
 

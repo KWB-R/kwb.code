@@ -1,5 +1,10 @@
 
-[![Appveyor build Status](https://ci.appveyor.com/api/projects/status/github/KWB-R/kwb.code?branch=master&svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-code/branch/master) [![Travis build Status](https://travis-ci.org/KWB-R/kwb.code.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.code) [![codecov](https://codecov.io/github/KWB-R/kwb.code/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.code) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
+[![Appveyor build Status](https://ci.appveyor.com/api/projects/status/github/KWB-R/kwb.code?branch=master&svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-code/branch/master) 
+[![Travis build Status](https://travis-ci.org/KWB-R/kwb.code.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.code) 
+[![codecov](https://codecov.io/github/KWB-R/kwb.code/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.code) 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) 
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3385170.svg)](https://doi.org/10.5281/zenodo.3385170)
 
 # kwb.code
 
