@@ -9,7 +9,7 @@ This package allows you to parse your R scripts and to calculate some staticstic
 ## Installation
 
 Install the package from Github: 
-```{r eval = FALSE}
+```r
 #install.packages("remotes")
 remotes::install_github("kwb-r/kwb.code")
 ```
@@ -20,7 +20,7 @@ If you have a lot of R scripts and you want to know what different packages
 are loaded from within your scripts, you may use the function
 `get_names_of_used_packages`:
 
-```{r eval = FALSE}
+```r
 # Set path to directory in which to look recursively for R scripts
 root_dir <- "~/Desktop/R-Development"
 
