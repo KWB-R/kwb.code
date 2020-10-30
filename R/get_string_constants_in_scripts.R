@@ -9,6 +9,9 @@
 #'   implementations of this function are used and the results are compared
 #'   internally. Set this argument to \code{FALSE} to get the result as fast
 #'   as possible.
+#' @param FUN optional. Function used to browse the code tree for string
+#'   constants. If \code{NULL} (the default), 
+#'   \code{kwb.code:::fetch_string_constants_1} is used.
 #' @export
 #' @return data frame with columns \code{file_id} (file identifier),
 #'   \code{string} (string constant found in the file) and \code{count} (number
@@ -24,7 +27,7 @@
 #' 
 get_string_constants_in_scripts <- function(
   root, scripts = dir(root, "\\.[Rr]$", recursive = TRUE), 
-  two_version_check = TRUE
+  two_version_check = TRUE, FUN = NULL
 ) {
 
   if (FALSE) {
@@ -39,10 +42,10 @@ get_string_constants_in_scripts <- function(
   tree <- kwb.code::parse_scripts(root, scripts)
   
   names(tree) <- file_db$files$file_id
+
+  strings <- kwb.utils::defaultIfNULL(FUN, fetch_string_constants_1)(tree)
   
-  strings <- fetch_string_constants_1(tree)
-  
-  if (two_version_check) {
+  if (two_version_check && is.null(FUN)) {
     string_constants_2 <- fetch_string_constants_2(tree)
     stopifnot(identical(strings, string_constants_2))
   }
