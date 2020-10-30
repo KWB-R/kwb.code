@@ -40,14 +40,14 @@ get_string_constants_in_scripts <- function(
   
   names(tree) <- file_db$files$file_id
   
-  string_constants <- fetch_string_constants_1(tree)
+  strings <- fetch_string_constants_1(tree)
   
   if (two_version_check) {
     string_constants_2 <- fetch_string_constants_2(tree)
-    stopifnot(identical(string_constants, string_constants_2))
+    stopifnot(identical(strings, string_constants_2))
   }
   
-  result <- lapply(string_constants, function(x) if (! is.null(x)) {
+  result <- lapply(strings, function(x) if (! is.null(x)) {
     f <- table(x)
     kwb.utils::noFactorDataFrame(string = names(f), count = as.integer(f))
   })
