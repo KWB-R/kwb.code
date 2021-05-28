@@ -12,6 +12,8 @@ get_package_usage_per_script(root, packages, pattern = "\\\\.R$")
 \item{packages}{vector with package names to be checked}
 
 \item{pattern}{default: "\\.R$"}
+
+\item{...}{additional arguments passed to \code{\link{get_package_function_usage}}}
 }
 \value{
 tibble with information on used packages

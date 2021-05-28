@@ -4,7 +4,7 @@
 #' @param root root directory with R scripts
 #' @param packages vector with package names to be checked 
 #' @param pattern default: "\\.R$"
-#'
+#' @param ... additional arguments passed to \code{\link{get_package_function_usage}}
 #' @return tibble with information on used packages
 #' @export
 #' @importFrom stats setNames
@@ -24,7 +24,10 @@ get_package_usage_per_script <- function(root, packages, pattern = "\\.R$")
   # For each package, check which script uses functions of this package
   who_uses_what <- lapply(stats::setNames(nm = packages), function(package) {
     kwb.utils::catAndRun(paste("Checking usage of", package), newLine = 3, {
-      try(get_package_function_usage(tree, package = package))
+      try(get_package_function_usage(tree,
+                                     package = package,
+                                     ...
+                                     ))
     })
   })
   
