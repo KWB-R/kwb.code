@@ -4,8 +4,11 @@
 \alias{parse_scripts}
 \title{Parse all given R scripts into a tree structure}
 \usage{
-parse_scripts(root, scripts = dir(root, "\\\\.R$", ignore.case = TRUE,
-  recursive = TRUE), dbg = TRUE)
+parse_scripts(
+  root,
+  scripts = dir(root, "\\\\.R$", ignore.case = TRUE, recursive = TRUE),
+  dbg = TRUE
+)
 }
 \arguments{
 \item{root}{root directory to which the relative paths given in
