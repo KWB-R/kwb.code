@@ -113,7 +113,7 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
 
     } else {
 
-      kwb.code:::extract_from_parse_tree(x = subtree)
+      extract_from_parse_tree(x = subtree)
     }
 
     vector_to_count_table(result) # may return NULL
