@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract Elements from Parse Tree of R Script — extract_from_parse_tree • kwb.code</title>
+<title>Which Function is Called How Often? — get_function_call_frequency • kwb.code</title>
 
 
 <!-- jquery -->
@@ -45,11 +45,8 @@
 
 
 
-<meta property="og:title" content="Extract Elements from Parse Tree of R Script — extract_from_parse_tree" />
-<meta property="og:description" content="The idea of this function is to collect objects of interest from the parse 
-tree, e.g. the names of functions that are called by a script. Therefore,
-set the function matches so that it returns TRUE for the nodes
-in the tree that are of interest." />
+<meta property="og:title" content="Which Function is Called How Often? — get_function_call_frequency" />
+<meta property="og:description" content="Which Function is Called How Often?" />
 
 
 
@@ -123,62 +120,43 @@ in the tree that are of interest." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract Elements from Parse Tree of R Script</h1>
-    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.code/blob/master/R/extract_from_parse_tree.R'><code>R/extract_from_parse_tree.R</code></a></small>
-    <div class="hidden name"><code>extract_from_parse_tree.Rd</code></div>
+    <h1>Which Function is Called How Often?</h1>
+    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.code/blob/master/R/get_package_function_usage.R'><code>R/get_package_function_usage.R</code></a></small>
+    <div class="hidden name"><code>get_function_call_frequency.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The idea of this function is to collect objects of interest from the parse 
-tree, e.g. the names of functions that are called by a script. Therefore,
-set the function <code>matches</code> so that it returns <code>TRUE</code> for the nodes
-in the tree that are of interest.</p>
+    <p>Which Function is Called How Often?</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_from_parse_tree</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  matches <span class='op'>=</span> <span class='va'>matches_function</span>,
-  dbg <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='op'>)</span>,
-  parent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  index <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_function_call_frequency</span><span class='op'>(</span><span class='va'>tree</span>, simple <span class='op'>=</span> <span class='cn'>FALSE</span>, dbg <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>parse tree as returned by <code>parse</code></p></td>
+      <th>tree</th>
+      <td><p>parse tree as returned by <code><a href='parse_scripts.html'>parse_scripts</a></code></p></td>
     </tr>
     <tr>
-      <th>matches</th>
-      <td><p>function that is called for each node of the tree. Give a 
-function here that returns <code>TRUE</code> if the object is to be selected and
-<code>FALSE</code> else. The value of <code>TRUE</code> must be given an attribute 
-<code>name</code> that is expected to be a character of length one.</p></td>
+      <th>simple</th>
+      <td><p>if <code>TRUE</code>, a simple approach using a simple regular
+expression is used. This approach is fast but not correct as it e.g. counts
+function calls that are commented out or even string expressions that just
+look like function calls. Leaving this argument to its default,
+<code>FALSE</code>, will return only real function calls by evaluating the full
+structure of parse tree.</p></td>
     </tr>
     <tr>
       <th>dbg</th>
-      <td><p>if <code>TRUE</code> each node in printed during the climing of the tree</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>for internal use</p></td>
-    </tr>
-    <tr>
-      <th>parent</th>
-      <td><p>for internal use</p></td>
-    </tr>
-    <tr>
-      <th>index</th>
-      <td><p>for internal use</p></td>
+      <td><p>if <code>TRUE</code>, debug messages are shown</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of character or <code>NULL</code></p>
+    <p>data frame with columns <code>name</code> (name of function), <code>count</code>
+  (number of times the function is called)</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

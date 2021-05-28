@@ -86,7 +86,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/KWB-R/kwb.code/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -129,8 +129,12 @@
     <p>Get Frequency of String Constant Usage in R Scripts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_string_constants_in_scripts</span><span class='op'>(</span><span class='va'>root</span>, scripts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='va'>root</span>, <span class='st'>"\\.[Rr]$"</span>,
-  recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, two_version_check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_string_constants_in_scripts</span><span class='op'>(</span>
+  <span class='va'>root</span>,
+  scripts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='va'>root</span>, <span class='st'>"\\.[Rr]$"</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+  two_version_check <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  FUN <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,6 +154,12 @@ constants, relative to <code>root</code></p></td>
 implementations of this function are used and the results are compared
 internally. Set this argument to <code>FALSE</code> to get the result as fast
 as possible.</p></td>
+    </tr>
+    <tr>
+      <th>FUN</th>
+      <td><p>optional. Function used to browse the code tree for string
+constants. If <code>NULL</code> (the default), 
+<code>kwb.code:::fetch_string_constants_1</code> is used.</p></td>
     </tr>
     </table>
 
