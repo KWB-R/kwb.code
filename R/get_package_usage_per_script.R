@@ -11,7 +11,7 @@
 #' @importFrom kwb.utils catAndRun
 #' @importFrom dplyr bind_rows
 
-get_package_usage_per_script <- function(root, packages, pattern = "\\.R$")
+get_package_usage_per_script <- function(root, packages, pattern = "\\.R$", ...)
 {
   # Parse all script within this root folder
   tree <- parse_scripts(
@@ -26,6 +26,7 @@ get_package_usage_per_script <- function(root, packages, pattern = "\\.R$")
     kwb.utils::catAndRun(paste("Checking usage of", package), newLine = 3, {
       try(get_package_function_usage(tree,
                                      package = package,
+                                     by_script = TRUE,
                                      ...
                                      ))
     })

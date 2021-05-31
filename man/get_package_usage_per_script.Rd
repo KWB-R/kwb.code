@@ -4,7 +4,7 @@
 \alias{get_package_usage_per_script}
 \title{Get Package Usage per Script}
 \usage{
-get_package_usage_per_script(root, packages, pattern = "\\\\.R$")
+get_package_usage_per_script(root, packages, pattern = "\\\\.R$", ...)
 }
 \arguments{
 \item{root}{root directory with R scripts}
