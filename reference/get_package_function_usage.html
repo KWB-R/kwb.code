@@ -167,15 +167,17 @@ script, otherwise they are counted over all scripts</p></td>
    number of function calls)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Read all scripts that are provided in the kwb.fakin package</span>
-<span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='fu'>kwb.code</span><span class='fu'>::</span><span class='fu'><a href='parse_scripts.html'>parse_scripts</a></span><span class='op'>(</span>root <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"kwb.fakin"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># Check which functions from kwb.utils are used and how often</span>
-<span class='fu'>get_package_function_usage</span><span class='op'>(</span><span class='va'>tree</span>, package <span class='op'>=</span> <span class='st'>"kwb.utils"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `name`.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 x 1</span>
-#&gt; <span style='color: #949494;'># … with 1 variable: package &lt;chr&gt;</span></div><div class='input'>
-<span class='co'># Hm, this does not seem to be the whole truth...</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Read all scripts that are provided in the kwb.fakin package</span></span>
+<span class='r-in'><span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='fu'>kwb.code</span><span class='fu'>::</span><span class='fu'><a href='parse_scripts.html'>parse_scripts</a></span><span class='op'>(</span>root <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"kwb.fakin"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Check which functions from kwb.utils are used and how often</span></span>
+<span class='r-in'><span class='fu'>get_package_function_usage</span><span class='op'>(</span><span class='va'>tree</span>, package <span class='op'>=</span> <span class='st'>"kwb.utils"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Unknown or uninitialised column: `name`.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 0 × 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 1 variable: package &lt;chr&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Hm, this does not seem to be the whole truth...</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
