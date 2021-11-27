@@ -61,7 +61,7 @@ get_string_constants_in_scripts <- function(
 # fetch_string_constants_1 -----------------------------------------------------
 fetch_string_constants_1 <- function(tree)
 {
-  if (is.list(tree) || length(tree) > 1) {
+  if (is.recursive(tree)) {
     
     result <- lapply(tree, fetch_string_constants_1)
     
