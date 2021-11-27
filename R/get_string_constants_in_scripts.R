@@ -85,9 +85,9 @@ fetch_string_constants_2 <- function(tree)
 # matches_string ---------------------------------------------------------------
 matches_string <- function(x, parent, index) 
 {
-  if (is.character(x)) {
-    structure(TRUE, name = x)
-  } else {
+  if (! is.character(x)) {
     return(FALSE)
   }
+  
+  structure(TRUE, name = x)
 }
