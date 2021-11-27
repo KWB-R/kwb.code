@@ -150,7 +150,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='co'># Parse an R script file (here, a file from kwb.utils)</span></span>
-<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/column.R"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R"</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Analyse the parse tree (This may take some time!)</span></span>
 <span class='r-in'><span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>kwb.code</span><span class='fu'>::</span><span class='fu'>analyse</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
@@ -161,20 +161,20 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ type     : chr "expression"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ mode     : chr "expression"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ class    : chr "expression"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ length   : int 21</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ text     : chr "[1]addSuffixToColumns &lt;- funct ..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ length   : int 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ text     : chr "[1].log &lt;- function(...) {\n    ..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ is       : NULL</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ n_modes  : int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ n_classes: int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ path     : chr ""</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ fulltype : chr "expression|expression|expression|21|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ children :List of 21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ fulltype : chr "expression|expression|expression|4|"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ children :List of 4</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]addSuffixToColumns[3]f ..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2].log[3]function(...) { ..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
@@ -186,7 +186,7 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]checkForMissingColumns ..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2].logline[3]function(.. ..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
@@ -198,7 +198,7 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]columnToDate[3]functio ..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2].logok[3]function(dbg  ..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
@@ -210,215 +210,11 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]dropUnusedFactorLevels ..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2].logstart[3]function(d ..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/4"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]firstPosixColumn[3]fun ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/5"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]hsAddMissingCols[3]fun ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/6"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]hsDelEmptyCols[3]funct ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/7"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]hsRenameColumns[3]func ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/8"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]insertColumns[3]functi ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/9"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]moveColumnsToFront[3]f ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/10"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]pasteColumns[3]functio ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/11"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]pasteColumns0[3]functi ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/12"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]posixColumnAtPosition[ ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/13"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]removeColumns[3]functi ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/14"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]removeEmptyColumns[3]f ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/15"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]renameAndSelect[3]func ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/16"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]renameColumns[3]functi ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/17"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]roundColumns[3]functio ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/18"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]safeColumnBind[3]funct ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/19"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]selectColumns[3]functi ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/20"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ :List of 11</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ type     : chr "language"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ mode     : chr "call"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ class    : chr "&lt;-"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ length   : int 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ text     : chr "[1]&lt;-[2]setColumns[3]function( ..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ is       : NULL</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_modes  : int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ n_classes: int 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ path     : chr "/21"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ fulltype : chr "language|call|&lt;-|3|"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..$ children :List of 3</span>
 </pre>

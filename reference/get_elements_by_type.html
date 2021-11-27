@@ -129,7 +129,7 @@
     <p>Extract Sections of Same "Type" from Parse Tree</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_elements_by_type</span><span class='op'>(</span><span class='va'>x</span>, result <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_elements_by_type</span><span class='op'>(</span><span class='va'>x</span>, result <span class='op'>=</span> <span class='cn'>NULL</span>, dbg <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,282 +142,32 @@
       <th>result</th>
       <td><p>optional. Result as returned by <code><a href='analyse.html'>analyse</a></code></p></td>
     </tr>
+    <tr>
+      <th>dbg</th>
+      <td><p>if <code>TRUE</code>, debug messages are shown</p></td>
+    </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='co'># Parse an R script file (here, a file from kwb.utils)</span></span>
-<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/column.R"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R"</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># For each "type" of code segment, extract all occurrences</span></span>
 <span class='r-in'><span class='va'>elements</span> <span class='op'>&lt;-</span> <span class='fu'>get_elements_by_type</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Analysing the parse tree ... ok. (6.94s) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Analysing the parse tree ... ok. (0.34s) </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Show all for-loops</span></span>
 <span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|for|4|`</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> for (column in columns) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     catAndRun(sprintf("Removing unused factors from %s$%s", data_name, </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         column), data[[column]] &lt;- droplevels(data[[column]]), </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         dbg = dbg)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> for (col in colNames) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (!col %in% names(dataFrame)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         dataFrame[[col]] &lt;- rep(fill.value, n)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> for (column in names(renamings)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns[columns == column] &lt;- renamings[[column]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> for (column in columns) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     n_digits &lt;- if (is.list(digits)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         digits[[column]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         digits</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     dframe[[column]] &lt;- round(dframe[[column]], digits = n_digits)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[5]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> for (columnName in names(assignments)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     catIf(dbg, sprintf("Provide column '%s' to data frame '%s'... ", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         columnName, name.x))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     .x[[columnName]] &lt;- assignments[[columnName]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     catIf(dbg, "ok.\n")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Show all if-statements</span></span>
 <span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|if|3|`</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!isNullOrEmpty(missing)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     msg &lt;- noSuchElements(x = missing, available = columnNames, </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         type = "column", sorted = TRUE, suffix = sprintf(" in data frame '%s'", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             dataFrameName))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     do.call(ifelse(do.stop, "stop", "warning"), list(msg, call. = FALSE))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!is.data.frame(data)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop("The object given to dropUnusedFactorLevels() is not a data frame but is", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         "of\nclass: ", stringList(class(data)), call. = FALSE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!col %in% names(dataFrame)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     dataFrame[[col]] &lt;- rep(fill.value, n)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (sum(c(before, after) != "") != 1) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop("Exactly one of before and after must be given!")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[5]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(columnNames) || length(columnNames[columnNames != </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     ""]) != length(newColumns)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop("All new columns must be named, i.e. given in the form 'name = values'")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[6]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!all(equalLength)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop("All new columns must have as many elements as Data has rows. ", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         "This is not the case for: ", commaCollapsed(columnNames[!equalLength]))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[7]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (isNullOrEmpty(tcol)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     warning("No POSIXt-column in data frame.")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[8]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(columns) &amp;&amp; !is.null(columnsToRemove)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     warning("The argument 'columnsToRemove' is deprecated. Please use the new ", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         "argument 'columns' instead.", call. = FALSE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- columnsToRemove</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[9]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(columns)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (is.null(pattern)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         stop("Either 'columns' or 'pattern' must be given to removeColumns()", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             call. = FALSE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         columns &lt;- grep(pattern, all_columns, value = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[10]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (dbg) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns_remove &lt;- intersect(all_columns, columns)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     cat(sprintf("Removing column%s %s from '%s'.\n", ifelse(length(columns_remove) &gt; </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         1, "s", ""), stringList(columns_remove), deparse(substitute(dframe))))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[11]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(renamings)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     return(x)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[12]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!is.null(columnNames)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     warning("roundColumns: Argument 'columnNames' is deprecated. Use argument ", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         "'columns' instead.", call. = FALSE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- unique(c(columns, columnNames))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[13]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!is.null(columns)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stopifnot(length(digits) == 1)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[14]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(digits)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     return(dframe)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[15]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(columns)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- names(which(sapply(dframe, is.numeric)))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (!is.null(pattern)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         columns &lt;- grep(pattern, columns, value = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[16]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!is.null(pattern)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- grep(pattern, columns, value = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[17]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!is.data.frame(x)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop(call. = FALSE, sprintf("%s given to selectColumns() must be a data frame but is of class: %s", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         deparse(substitute(x)), stringList(class(x))))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[18]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(columns) || length(columns) == 0 || all(is.na(columns))) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (is.null(pattern)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         return(x)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         columns &lt;- grep(pattern, names(x), value = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[19]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (!ok) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     warning("Only the existing columns are selected.")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- intersect(columns, names(x))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[20]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (any(is.unnamed(assignments))) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop("All column assignments must be named!", call. = FALSE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Show all if-else-statements</span></span>
 <span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|if|4|`</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (length(columns)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     for (column in columns) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         catAndRun(sprintf("Removing unused factors from %s$%s", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             data_name, column), data[[column]] &lt;- droplevels(data[[column]]), </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             dbg = dbg)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     catIf(dbg, "No factor columns contained in data frame '", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         data_name, "'")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (before != "") {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     part1 &lt;- if (i == 1) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         partBetween</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         cbind(Data[, 1:(i - 1), drop = FALSE], partBetween)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     part2 &lt;- Data[, i:n.col, drop = FALSE]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     part1 &lt;- Data[, 1:i, drop = FALSE]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     part2 &lt;- if (i == n.col) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         partBetween</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         cbind(partBetween, Data[, (i + 1):n.col, drop = FALSE], </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             stringsAsFactors = stringsAsFactors)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (i == 1) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     partBetween</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     cbind(Data[, 1:(i - 1), drop = FALSE], partBetween)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (i == n.col) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     partBetween</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     cbind(partBetween, Data[, (i + 1):n.col, drop = FALSE], stringsAsFactors = stringsAsFactors)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[5]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (length(columns) &gt; 1) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     args &lt;- selectColumns(x, columns, ...)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     do.call(paste, c(args, sep = sep))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     selectColumns(x, columns, ...)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[6]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(pattern)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop("Either 'columns' or 'pattern' must be given to removeColumns()", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         call. = FALSE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- grep(pattern, all_columns, value = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[7]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (any(isEmpty)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     catIf(dbg, sprintf("%s: %d empty columns removed: %s\n", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         objectName, sum(isEmpty), paste(names(x)[isEmpty], collapse = ", ")))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     catIf(dbg, sprintf("%s: No empty columns.\n", objectName))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[8]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.list(digits)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     digits[[column]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     digits</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[9]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(x1)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     x2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     cbind(x1, x2)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [[10]]</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> if (is.null(pattern)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     return(x)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> } else {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     columns &lt;- grep(pattern, names(x), value = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
 <span class='r-in'></span>
 </pre>
   </div>
