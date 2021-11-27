@@ -4,17 +4,17 @@ get_depth_expression <- function(e)
 {
   noExpression <- ! is.expression(e)
 
-  if (noExpression || length(e) == 0) {
+  if (noExpression || length(e) == 0L) {
 
-    messageText <- if (noExpression) {
+    msg <- if (noExpression) {
       paste("Skipping non-expression of class: ", hsQuoteChr(class(e)))
     } else {
       "Skipping expression of legth 0"
     }
 
-    message(messageText)
+    message(msg)
 
-    return (0)
+    return (0L)
   }
 
   lapply(e, get_depth_any)
@@ -25,28 +25,25 @@ get_depth_expression <- function(e)
 get_depth_any <- function(x)
 {
   if (is_assignment(x)) {
-
-    get_depth_assignment(x)
-
-  } else if (is.call(x)) {
-
-    get_depth_call(x)
-
-  } else if (is.name(x) || is.character(x) || is.numeric(x)) {
-    
-    return (0)
-
-  } else {
-
-    stop("need to treat object of class: ", hsQuoteChr(class(x)))
+    return(get_depth_assignment(x))
   }
+  
+  if (is.call(x)) {
+    return(get_depth_call(x))
+  }
+  
+  if (is.name(x) || is.character(x) || is.numeric(x)) {
+    return (0L)
+  } 
+  
+  stop("need to treat object of class: ", kwb.utils::hsQuoteChr(class(x)))
 }
 
 # get_depth_assignment ---------------------------------------------------------
 get_depth_assignment <- function(a)
 {
   stopifnot(is_assignment(a))
-  0
+  0L
 }
 
 # get_depth_call ---------------------------------------------------------------
@@ -57,21 +54,18 @@ get_depth_call <- function(x)
   # different types of call possible
 
   if (inherits(x, "if")) {
-
-    get_depth_if(x)
-
-  } else if (inherits(x, "for")) {
-
-    get_depth_for(x)
-
-  } else if (inherits(x, "{")) {
-
-    get_depth_open_brace(x)
-
-  } else {
-
-    get_depth_call_usual(x)
+    return(get_depth_if(x))
   }
+  
+  if (inherits(x, "for")) {
+    return(get_depth_for(x))
+  }
+  
+  if (inherits(x, "{")) {
+    return(get_depth_open_brace(x))
+  }
+  
+  get_depth_call_usual(x)
 }
 
 # get_depth_if -----------------------------------------------------------------
@@ -121,10 +115,9 @@ get_depth_call_usual <- function(x)
 
   result <- lapply(parts$args, get_depth_any)
 
-  structure(
-    result,
-    names = paste0(parts$functionName, "_arg_", seq_along(parts$args))
-  )
+  stats::setNames(result, paste0(
+    parts$functionName, "_arg_", seq_along(parts$args)
+  ))
 }
 
 # get_depth --------------------------------------------------------------------
@@ -138,23 +131,18 @@ get_depth <- function(e, depth = 0)
   } else if (is.call(e)) {
 
     parts <- if (is_function_def_call(e)) {
-      
       split_function_def_call(e)
-      
     } else {
-      
       list(args = as.list(e)[-1], bodyExpressions = NULL)
     }
 
     depths <- numeric()
 
     if (! is.null(parts$args)) {
-      
       depths <- c(depths, sapply(parts$args, get_depth, depth + 1))
     }
     
     if (! is.null(parts$bodyExpressions)) {
-      
       depths <- c(depths, sapply(parts$bodyExpressions, get_depth, depth + 1))
     }
 
