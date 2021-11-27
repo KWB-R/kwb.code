@@ -67,14 +67,6 @@ is_what <- function(
   gsub(pattern_is, "", names(which(is_results)))
 }
 
-# removeAttribute --------------------------------------------------------------
-removeAttribute <- function(x, which)
-{
-  attr(x, which) <- NULL
-  
-  x
-}
-
 # vector_to_count_table --------------------------------------------------------
 vector_to_count_table <- function(x)
 {
