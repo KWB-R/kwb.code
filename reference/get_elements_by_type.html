@@ -151,7 +151,8 @@
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># For each "type" of code segment, extract all occurrences</span></span>
 <span class='r-in'><span class='va'>elements</span> <span class='op'>&lt;-</span> <span class='fu'>get_elements_by_type</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Analysing the parse tree ... ok. (9.68s) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Analysing the parse tree ... ok. (6.94s) </span>
+<span class='r-in'></span>
 <span class='r-in'><span class='co'># Show all for-loops</span></span>
 <span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|for|4|`</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
@@ -197,17 +198,10 @@
 <span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|if|3|`</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> if (!isNullOrEmpty(missing)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     plural_s_or_empty &lt;- function(x) ifelse(length(x) &gt; 1, "s", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         "")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     sorted_list &lt;- function(x) stringList(sort(x), collapse = "\n  ")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     infotext_missing &lt;- sprintf("%d column%s missing in data frame '%s':\n  %s", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         length(missing), plural_s_or_empty(missing), dataFrameName, </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         sorted_list(missing))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     infotext_available &lt;- sprintf("Available column%s:\n  %s", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         plural_s_or_empty(columnNames), sorted_list(columnNames))</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     infotext &lt;- paste(infotext_missing, infotext_available, sep = "\n")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     do.call(ifelse(do.stop, "stop", "warning"), list(infotext, </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         call. = FALSE))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     msg &lt;- noSuchElements(x = missing, available = columnNames, </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         type = "column", sorted = TRUE, suffix = sprintf(" in data frame '%s'", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             dataFrameName))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     do.call(ifelse(do.stop, "stop", "warning"), list(msg, call. = FALSE))</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
@@ -305,8 +299,8 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [[17]]</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> if (!is.data.frame(x)) {</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop(deparse(substitute(x)), " given to selectColumns() must be a data frame ", </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         "but is of class: ", stringList(class(x)), call. = FALSE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stop(call. = FALSE, sprintf("%s given to selectColumns() must be a data frame but is of class: %s", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         deparse(substitute(x)), stringList(class(x))))</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [[18]]</span>
