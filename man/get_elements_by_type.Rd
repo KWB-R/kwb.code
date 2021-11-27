@@ -20,6 +20,7 @@ x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/column.R"
 
 # For each "type" of code segment, extract all occurrences
 elements <- get_elements_by_type(x)
+
 # Show all for-loops
 elements$`language|call|for|4|`
 

@@ -11,6 +11,7 @@
 #' 
 #' # For each "type" of code segment, extract all occurrences
 #' elements <- get_elements_by_type(x)
+#' 
 #' # Show all for-loops
 #' elements$`language|call|for|4|`
 #' 
@@ -30,19 +31,21 @@ get_elements_by_type <- function(x, result = NULL)
   
   type_paths <- get_paths_to_types(result)
   
-  lapply(
-    stats::setNames(seq_along(type_paths), names(type_paths)),
-    FUN = function(i) {
-      
-      # Remove leading slash from the type path
-      type_path <- gsub("^/", "", type_paths[[i]])
-      
-      # Use the segments of the type path as (recursive) list indices
-      lapply(strsplit(type_path, "/"), function(indices) {
-        if (length(indices)) {
-          x[[as.integer(indices)]]
-        }
-      })
+  code_parts <- lapply(type_paths, extract_by_path, x = x)
+  
+  stats::setNames(code_parts, names(type_paths))
+}
+
+# extract_by_path --------------------------------------------------------------
+extract_by_path <- function(x, paths)
+{
+  # Remove leading slash from the type path
+  clean_paths <- gsub("^/", "", paths)
+  
+  # Use the segments of the type path as (recursive) list indices
+  lapply(strsplit(clean_paths, "/"), function(indices) {
+    if (length(indices)) {
+      x[[as.integer(indices)]]
     }
-  )
+  })
 }
