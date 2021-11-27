@@ -40,8 +40,7 @@ get_package_function_usage <- function(
     frequency_data = frequency_data
   ))
 
-  if (nrow(result) == 0) {
-
+  if (nrow(result) == 0L) {
     return(result)
   }
 
@@ -94,7 +93,6 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
       expr = tree[is_expression],
       dbg = dbg
     )
-
   }
 
   lapply(tree, function(subtree) {
@@ -105,7 +103,6 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
       pattern <- "[A-Za-z][A-Za-z0-9.]*(::)?[A-Za-z][A-Za-z0-9._]*\\("
 
       function_names_list <- lapply(subtree, function(expr) {
-
         unlist(stringr::str_extract_all(deparse(expr), pattern))
       })
 
@@ -127,14 +124,14 @@ remove_non_installed_packages <- function(packages)
   available <- packages %in% unname(utils::installed.packages()[, "Package"])
 
   if (all(available)) {
-
     return(packages)
   }
 
-  message(
-    "Skipping ", sum(! available), " package(s) that are not installed:\n",
+  message(sprintf(
+    "Skipping %d package(s) that are not installed:\n",
+    sum(! available),
     kwb.utils::stringList(packages[! available])
-  )
+  ))
 
   packages[available]
 }
@@ -152,14 +149,11 @@ filter_for_package_functions <- function(frequency_data, package)
 
   result <- frequency_data[frequency_data$name %in% functions, , drop = FALSE]
 
-  if (nrow(result) > 0) {
-
-    digest_package_specifier(result)
-
-  } else {
-
-    result
+  if (nrow(result) == 0L) {
+    return(result)
   }
+  
+  digest_package_specifier(result)
 }
 
 # digest_package_specifier -----------------------------------------------------
@@ -169,16 +163,15 @@ digest_package_specifier <- function(ff)
 
   parts <- strsplit(as.character(ff$name), ":::?")
 
-  is_explicit <- lengths(parts) > 1
+  is_explicit <- lengths(parts) > 1L
 
-  ff$explicit <- ifelse(is_explicit, ff$count, 0)
+  ff$explicit <- ifelse(is_explicit, ff$count, 0L)
 
-  ff$implicit <- ifelse(is_explicit, 0, ff$count)
+  ff$implicit <- ifelse(is_explicit, 0L, ff$count)
 
   # Remove <package::[:]> if function is called with this package specifier
   if (any(is_explicit)) {
-
-    ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2)
+    ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2L)
   }
 
   stats::aggregate(. ~ script + name, data = ff, FUN = sum)
