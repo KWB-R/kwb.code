@@ -4,19 +4,21 @@
 \alias{get_elements_by_type}
 \title{Extract Sections of Same "Type" from Parse Tree}
 \usage{
-get_elements_by_type(x, result = NULL)
+get_elements_by_type(x, result = NULL, dbg = TRUE)
 }
 \arguments{
 \item{x}{parse tree as returned by \code{\link{parse}}}
 
 \item{result}{optional. Result as returned by \code{\link{analyse}}}
+
+\item{dbg}{if \code{TRUE}, debug messages are shown}
 }
 \description{
 Extract Sections of Same "Type" from Parse Tree
 }
 \examples{
 # Parse an R script file (here, a file from kwb.utils)
-x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/column.R")
+x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R")
 
 # For each "type" of code segment, extract all occurrences
 elements <- get_elements_by_type(x)

@@ -4,10 +4,11 @@
 #' 
 #' @param x parse tree as returned by \code{\link{parse}}
 #' @param result optional. Result as returned by \code{\link{analyse}}
+#' @param dbg if \code{TRUE}, debug messages are shown
 #' @export
 #' @examples 
 #' # Parse an R script file (here, a file from kwb.utils)
-#' x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/column.R")
+#' x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R")
 #' 
 #' # For each "type" of code segment, extract all occurrences
 #' elements <- get_elements_by_type(x)
@@ -21,10 +22,10 @@
 #' # Show all if-else-statements
 #' elements$`language|call|if|4|`
 #' 
-get_elements_by_type <- function(x, result = NULL)
+get_elements_by_type <- function(x, result = NULL, dbg = TRUE)
 {
   if (is.null(result)) {
-    kwb.utils::catAndRun("Analysing the parse tree", {
+    kwb.utils::catAndRun(dbg = dbg, "Analysing the parse tree", {
       result <- analyse(x)
     })
   }

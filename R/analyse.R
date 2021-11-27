@@ -8,7 +8,7 @@
 #' @export
 #' @examples
 #' # Parse an R script file (here, a file from kwb.utils)
-#' x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/column.R")
+#' x <- parse("https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R")
 #' 
 #' # Analyse the parse tree (This may take some time!)
 #' result <- kwb.code::analyse(x)
