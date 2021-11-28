@@ -139,12 +139,12 @@ remove_non_installed_packages <- function(packages)
 # filter_for_package_functions -------------------------------------------------
 filter_for_package_functions <- function(frequency_data, package)
 {
-  package_functions <- ls(getNamespace(package), all.names = TRUE)
+  fnames <- ls(getNamespace(package), all.names = TRUE)
 
   functions <- sort(c(
-    package_functions,
-    paste0(package, "::", package_functions),
-    paste0(package, ":::", package_functions)
+    fnames,
+    paste0(package, "::", fnames),
+    paste0(package, ":::", fnames)
   ))
 
   result <- frequency_data[frequency_data$name %in% functions, , drop = FALSE]
@@ -166,7 +166,6 @@ digest_package_specifier <- function(ff)
   is_explicit <- lengths(parts) > 1L
 
   ff$explicit <- ifelse(is_explicit, ff$count, 0L)
-
   ff$implicit <- ifelse(is_explicit, 0L, ff$count)
 
   # Remove <package::[:]> if function is called with this package specifier
