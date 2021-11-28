@@ -15,7 +15,7 @@ split_for <- function(x)
 {
   stopifnot(inherits(x, "for"))
   
-  stats::setNames(as.list(x)[c(2L, 3L, 4L)], c("variable", "values", "body"))
+  name_parts(x, variable = 2L, values = 3L, body = 4L)
 }
 
 # split_call -------------------------------------------------------------------
@@ -68,5 +68,13 @@ split_assignment <- function(assignment)
 {
   stopifnot(is_assignment(assignment))
   
-  stats::setNames(as.list(assignment)[c(2L, 3L)], c("leftSide", "rightSide"))
+  name_parts(assignment, leftSide = 2L, rightSide = 3L)
+}
+
+# name_parts -------------------------------------------------------------------
+name_parts <- function(x, ...)
+{
+  pairs <- list(...)
+  
+  stats::setNames(as.list(x)[as.integer(pairs)], names(pairs))
 }
