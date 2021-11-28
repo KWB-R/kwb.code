@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract Sections of Same "Type" from Parse Tree — get_elements_by_type • kwb.code</title>
+<title>Get Argument Names of a Function — arg_names • kwb.code</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Extract Sections of Same "Type" from Parse Tree — get_elements_by_type" />
-<meta property="og:description" content="Extract Sections of Same &quot;Type&quot; from Parse Tree" />
+<meta property="og:title" content="Get Argument Names of a Function — arg_names" />
+<meta property="og:description" content="Get Argument Names of a Function" />
 
 
 
@@ -120,55 +120,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract Sections of Same "Type" from Parse Tree</h1>
-    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.code/blob/master/R/get_elements_by_type.R'><code>R/get_elements_by_type.R</code></a></small>
-    <div class="hidden name"><code>get_elements_by_type.Rd</code></div>
+    <h1>Get Argument Names of a Function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.code/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>arg_names.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extract Sections of Same "Type" from Parse Tree</p>
+    <p>Get Argument Names of a Function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_elements_by_type</span><span class='op'>(</span><span class='va'>x</span>, result <span class='op'>=</span> <span class='cn'>NULL</span>, dbg <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>arg_names</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>parse tree as returned by <code><a href='https://rdrr.io/r/base/parse.html'>parse</a></code></p></td>
-    </tr>
-    <tr>
-      <th>result</th>
-      <td><p>optional. Result as returned by <code><a href='analyse.html'>analyse</a></code></p></td>
-    </tr>
-    <tr>
-      <th>dbg</th>
-      <td><p>if <code>TRUE</code>, debug messages are shown</p></td>
+      <td><p>function name or function</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>vector of character</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># Parse an R script file (here, a file from kwb.utils)</span></span>
-<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R"</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># For each "type" of code segment, extract all occurrences</span></span>
-<span class='r-in'><span class='va'>elements</span> <span class='op'>&lt;-</span> <span class='fu'>get_elements_by_type</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Analysing the parse tree ... ok. (0.35s) </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Show all for-loops</span></span>
-<span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|for|4|`</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Show all if-statements</span></span>
-<span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|if|3|`</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Show all if-else-statements</span></span>
-<span class='r-in'><span class='va'>elements</span><span class='op'>$</span><span class='va'>`language|call|if|4|`</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
-<span class='r-in'></span>
+    <pre class="examples"><span class='r-in'><span class='fu'>arg_names</span><span class='op'>(</span><span class='st'>"sum"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "..."   "na.rm"</span>
+<span class='r-in'><span class='fu'>arg_names</span><span class='op'>(</span><span class='va'>mean</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "x"   "..."</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
