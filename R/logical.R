@@ -21,5 +21,5 @@ is_function_def_call <- function(x)
     return(FALSE)
   }
 
-  as.character(as.list(x)[[1]])[1] == "function"
+  as.character(as.list(x)[[1L]])[1L] == "function"
 }

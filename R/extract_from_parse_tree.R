@@ -23,12 +23,10 @@ extract_from_parse_tree <- function(
 ) {
 
   if (is.null(matches) || ! is.function(matches)) {
-    
     stop(call. = FALSE, "Please give a function in argument 'matches'")
   }
   
-  if (is.list(x) && length(path) == 0) {
-    
+  if (is.list(x) && length(path) == 0L) {
     return(lapply(
       x, extract_from_parse_tree, matches, dbg, path, parent, index
     ))
@@ -43,13 +41,10 @@ extract_from_parse_tree <- function(
   # Is the current element wanted? If yes, store this element
   element <- if (wanted <- matches(x, parent, index)) {
     kwb.utils::getAttribute(wanted, "name")
-  } else {
-    NULL
-  }
+  } # else NULL implicitly
 
   # Do we have to climb further branches up?  
-  #if (is.list(x) || length(x) > 1) {
-  if (is.expression(x) || is.list(x) || length(x) > 1) {
+  if (is.expression(x) || is.list(x) || length(x) > 1L) {
     
     c(element, unlist(lapply(seq_along(x), function(i) extract_from_parse_tree(
       x = x[[i]], matches = matches, dbg = dbg, path = c(path, i), 
@@ -65,24 +60,22 @@ extract_from_parse_tree <- function(
 # matches_function -------------------------------------------------------------
 matches_function <- function(
   x, parent = NULL, index, exclude = base_functions()
-) {
-  
+)
+{
   if (! is.call(x)) {
-    
     return(FALSE)
   }
   
-  if (is.call(parent) && index == 1) {
-    
+  if (is.call(parent) && index == 1L) {
     return(FALSE)  
   }
   
-  name <- as.character(x[[1]])
+  name <- as.character(x[[1L]])
   
   n <- length(name)
   
-  if (! (n == 1 || n == 3)) {
-   
+  if (! (n == 1L || n == 3L)) {
+    
     message(sprintf(
       "Not expected: n = %d, str(x) = %s", 
       n, utils::capture.output(utils::str(x))
@@ -91,21 +84,20 @@ matches_function <- function(
     return(FALSE)
   }
   
-  if (n == 3) {
-    
-    name <- paste(name[c(2, 1, 3)], collapse = "")
+  if (n == 3L) {
+    name <- paste(name[c(2L, 1L, 3L)], collapse = "")
   }
 
   if (name %in% exclude) {
-    
     return(FALSE)
   } 
   
   structure(TRUE, name = name)
 }
 
-# default_excludes -------------------------------------------------------------
-base_functions <- function() {
+# base_functions ---------------------------------------------------------------
+base_functions <- function()
+{
   c(
     "<-", "=", 
     "+", "-", "*", "/", 

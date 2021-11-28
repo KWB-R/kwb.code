@@ -1,4 +1,13 @@
 # arg_names --------------------------------------------------------------------
+
+#' Get Argument Names of a Function
+#' 
+#' @param x function name or function
+#' @return vector of character
+#' @export
+#' @examples
+#' arg_names("sum")
+#' arg_names(mean)
 arg_names <- function(x)
 {
   args_list <- as.list(args(x))
@@ -51,16 +60,20 @@ is_what <- function(
   
   # Call all remaining is.* functions to x
   is_results <- sapply(is_functions, function(f) {
+    
     result <- try(do.call(f, list(x), quote = TRUE), silent = silent)
+    
     if (inherits(result, "try-error")) {
       cat(sprintf("%s(x) returned an error. Returning FALSE.\n", f))
-      FALSE
-    } else if (! isTRUE(result) && ! isFALSE(result)) {
-      cat(sprintf("%s(x) returned neither TRUE nor FALSE. Returning FALSE.\n", f))
-      FALSE
-    } else {
-      result
+      return(FALSE)
     }
+    
+    if (! isTRUE(result) && ! isFALSE(result)) {
+      cat(sprintf("%s(x) returned neither TRUE nor FALSE. Returning FALSE.\n", f))
+      return(FALSE)
+    }
+    
+    result
   })
   
   # Return the names (without "is.") of functions that returned TRUE  
@@ -70,8 +83,7 @@ is_what <- function(
 # vector_to_count_table --------------------------------------------------------
 vector_to_count_table <- function(x)
 {
-  if (length(x) == 0) {
-    
+  if (length(x) == 0L) {
     return(NULL)
   }
   

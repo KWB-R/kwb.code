@@ -13,7 +13,7 @@
 
 get_package_usage_per_script <- function(root, packages, pattern = "\\.R$", ...)
 {
-  # Parse all script within this root folder
+  # Parse all scripts within this root folder
   tree <- parse_scripts(
     root, scripts = dir(root, pattern, recursive = TRUE)
   )
@@ -24,11 +24,12 @@ get_package_usage_per_script <- function(root, packages, pattern = "\\.R$", ...)
   # For each package, check which script uses functions of this package
   who_uses_what <- lapply(stats::setNames(nm = packages), function(package) {
     kwb.utils::catAndRun(paste("Checking usage of", package), newLine = 3, {
-      try(get_package_function_usage(tree,
-                                     package = package,
-                                     by_script = TRUE,
-                                     ...
-                                     ))
+      try(get_package_function_usage(
+        tree,
+        package = package,
+        by_script = TRUE,
+        ...
+      ))
     })
   })
   
