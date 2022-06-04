@@ -2,7 +2,7 @@
 #' @importFrom kwb.utils printIf removeAttributes
 normaliseFunction <- function(x, dbg = FALSE)
 {
-  printIf(dbg, x, "Original")
+  kwb.utils::printIf(dbg, x, "Original")
 
   # Split the function assignment or raise an error
   parts <- split_function_assignment(x)

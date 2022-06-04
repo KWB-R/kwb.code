@@ -5,58 +5,60 @@
 #' @importFrom kwb.utils selectElements
 duplicatesToFiles <- function
 (
-  trees, fun_duplicates, functionName, targetRoot = tempdir(), dbg = TRUE,
+  trees, fun_duplicates, function_name, target_root = tempdir(), dbg = TRUE,
   write.all = FALSE
-)
-{
-  selected <- selectColumns(fun_duplicates, "functionName") == functionName
+) {
+
+  selected <- selectColumns(fun_duplicates, "functionName") == function_name
 
   scripts <- as.character(selectColumns(fun_duplicates[selected, ], "script"))
 
-  functionDefs <- lapply(scripts, function(script) {
-    extract_function_definition(selectElements(trees, script), functionName)
+  function_defs <- lapply(scripts, function(script) {
+    extract_function_definition(selectElements(trees, script), function_name)
   })
 
-  names(functionDefs) <- scripts
+  names(function_defs) <- scripts
 
-  targetDir <- file.path(targetRoot, "clean", functionName)
-  targetDir <- createDirectory(targetDir, dbg = FALSE)
+  target_dir <- file.path(target_root, "clean", function_name)
+  target_dir <- createDirectory(target_dir, dbg = FALSE)
 
-  contents <- lapply(functionDefs, function(x) deparse(x[[3L]]))
+  contents <- lapply(function_defs, function(x) deparse(x[[3L]]))
 
   # Write one file per function definition
   if (write.all) {
-    writeContentsToFiles(contents, targetDir, functionName, dbg = dbg)
+    writeContentsToFiles(contents, target_dir, function_name, dbg = dbg)
   }
 
   # Write one file per unique function definition
-  n.files <- writeContentsToLessFiles(contents, targetDir, functionName, dbg = dbg)
+  n_files <- writeContentsToLessFiles(
+    contents, target_dir, function_name, dbg = dbg
+  )
 
-  if (n.files != length(contents)) {
-    message("There are identical definitions for ", functionName)
+  if (n_files != length(contents)) {
+    message("There are identical definitions for ", function_name)
   }
 
-  targetDir
+  target_dir
 }
 
 # extract_function_definition --------------------------------------------------
-extract_function_definition <- function(tree, functionName)
-{
+extract_function_definition <- function(tree, function_name) {
+
   tree <- tree[sapply(tree, is_function_assignment)]
 
   fnames <- sapply(tree, function(x) split_function_assignment(x)$functionName)
 
-  index <- which(fnames == functionName)
+  index <- which(fnames == function_name)
 
-  n.defs <- length(index)
+  n_defs <- length(index)
 
-  if (n.defs == 0L) {
-    stop("No such function: '", functionName, "' defined in the given tree")
+  if (n_defs == 0L) {
+    stop("No such function: '", function_name, "' defined in the given tree")
   }
 
-  if (n.defs > 1L) {
+  if (n_defs > 1L) {
     warning(
-      "The function '", functionName, "' is defined multiple times in ",
+      "The function '", function_name, "' is defined multiple times in ",
       "the given tree. I return the first definition!"
     )
   }
