@@ -1,8 +1,8 @@
 # normaliseFunction ------------------------------------------------------------
-#' @importFrom kwb.utils printIf
+#' @importFrom kwb.utils printIf removeAttributes
 normaliseFunction <- function(x, dbg = FALSE)
 {
-  printIf(dbg, x, "Original")
+  kwb.utils::printIf(dbg, x, "Original")
 
   # Split the function assignment or raise an error
   parts <- split_function_assignment(x)
@@ -11,7 +11,7 @@ normaliseFunction <- function(x, dbg = FALSE)
 
   renames <- attr(newArglist, "renames")
 
-  x[[3]][[2]] <- removeAttribute(newArglist, "renames")
+  x[[3]][[2]] <- kwb.utils::removeAttributes(newArglist, "renames")
 
   # Rename the arguments in the body of the function
   x[[3]][[3]] <- replaceNames(x[[3]][[3]], renames)
