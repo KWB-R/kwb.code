@@ -5,14 +5,14 @@ writeContentsToLessFiles <- function(
 {
   oneLineContents <- sapply(contents, paste, collapse = "\n")
 
-  i <- 0
+  i <- 0L
 
   while (length(oneLineContents)) {
 
-    i <- i + 1
+    i <- i + 1L
 
     # Get the first content out of the list
-    content <- oneLineContents[1]
+    content <- oneLineContents[1L]
 
     # Select this and identical contents
     selected <- (oneLineContents == content)
@@ -51,11 +51,11 @@ writeContentToFile <- function(content, file, headerLines, dbg = TRUE)
 # writeContentsToFiles ---------------------------------------------------------
 writeContentsToFiles <- function(contents, targetDir, functionName, dbg = TRUE)
 {
-  names.contents <- names(contents)
+  content_names <- names(contents)
 
   for (i in seq_along(contents)) {
 
-    headerLines <- paste("# found in", names.contents[i])
+    headerLines <- paste("# found in", content_names[i])
 
     file <- targetFile(targetDir, functionName, i)
 

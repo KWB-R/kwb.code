@@ -61,7 +61,7 @@ get_string_constants_in_scripts <- function(
 # fetch_string_constants_1 -----------------------------------------------------
 fetch_string_constants_1 <- function(tree)
 {
-  if (is.list(tree) || length(tree) > 1) {
+  if (is.recursive(tree)) {
     
     result <- lapply(tree, fetch_string_constants_1)
     
@@ -85,9 +85,9 @@ fetch_string_constants_2 <- function(tree)
 # matches_string ---------------------------------------------------------------
 matches_string <- function(x, parent, index) 
 {
-  if (is.character(x)) {
-    structure(TRUE, name = x)
-  } else {
+  if (! is.character(x)) {
     return(FALSE)
   }
+  
+  structure(TRUE, name = x)
 }

@@ -15,16 +15,16 @@ expressions_stat <- function(x)
 #' @importFrom kwb.utils noFactorDataFrame
 get_function_info <- function(f)
 {
-  functionParts <- split_function_assignment(f)
+  parts <- split_function_assignment(f)
 
-  args <- functionParts$args
+  args <- parts$args
 
   noFactorDataFrame(
-    functionName = functionParts$functionName,
-    bodyClass = functionParts$bodyClass,
+    functionName = parts$functionName,
+    bodyClass = parts$bodyClass,
     n.args = length(args),
     n.defaults = sum(sapply(args, class) != "name"),
-    n.expr = length(functionParts$bodyExpressions)
+    n.expr = length(parts$bodyExpressions)
   )
 }
 
@@ -57,7 +57,11 @@ to_full_script_info <- function(trees)
 
   columns <- intersect(columns, names(info))
 
-  renames <- list(character = "chr", logical = "logi", numeric = "num")
+  renames <- list(
+    character = "chr", 
+    logical = "logi", 
+    numeric = "num"
+  )
 
   renameColumns(moveColumnsToFront(info, columns), renames)
 }
@@ -70,7 +74,7 @@ trees_to_script_info <- function(x)
   y <- noFactorDataFrame(
     script = names(x),
     rows = sapply(x, attr, "n.lines"),
-    expr = sapply(x, length),
+    expr = lengths(x),
     errors = ifelse(sapply(x, is.expression), "", "x")
   )
 
@@ -85,16 +89,13 @@ trees_to_script_info <- function(x)
 #' @importFrom kwb.utils safeRowBindAll
 trees_to_type_stat <- function(trees)
 {
-  typelist <- lapply(trees, function(tree) {
-    
-    frequencies <- sapply(expressions_by_class(tree), length)
-    
-    as.data.frame(t(frequencies))
+  types <- lapply(trees, function(tree) {
+    as.data.frame(t(lengths(expressions_by_class(tree))))
   })
 
-  typestat <- safeRowBindAll(typelist)
+  typestat <- safeRowBindAll(types)
   
-  typestat$script <- names(typelist)
+  typestat$script <- names(types)
 
   moveColumnsToFront(typestat, "script")
 }
@@ -102,8 +103,7 @@ trees_to_type_stat <- function(trees)
 # expressions_by_class ---------------------------------------------------------
 expressions_by_class <- function(tree)
 {
-  if (! is.expression(tree) || length(tree) == 0) {
-    
+  if (! is.expression(tree) || length(tree) == 0L) {
     return()
   }
 
@@ -111,15 +111,13 @@ expressions_by_class <- function(tree)
 
   result <- lapply(classes, filter_for, x = tree, FUN.filter = inherits)
 
-  structure(result, names = classes)
+  stats::setNames(result, classes)
 }
 
 # count_functions --------------------------------------------------------------
 count_functions <- function(trees)
 {
-  functions <- lapply(trees, get_functions)
-
-  unname(sapply(functions, length))
+  unname(lengths(lapply(trees, get_functions)))
 }
 
 # get_functions ----------------------------------------------------------------
@@ -132,9 +130,11 @@ get_functions <- function(tree)
 #' @importFrom stats aggregate
 expressions_per_function <- function(functionInfo)
 {
+  agg <- function(FUN) aggregate(n.expr ~ script, functionInfo, FUN = FUN)
+  
   result <- merge(
-    x = aggregate(n.expr ~ script, functionInfo, FUN = sum),
-    y = aggregate(n.expr ~ script, functionInfo, FUN = length),
+    x = agg(sum),
+    y = agg(length),
     by = "script",
     suffixes = c(".sum", ".n")
   )

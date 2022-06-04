@@ -62,7 +62,7 @@ parse_scripts <- function
     structure(expressions, n.lines = length(content))
   })
 
-  structure(trees, names = scripts)
+  stats::setNames(trees, scripts)
 }
 
 # get_full_function_info -------------------------------------------------------
@@ -81,10 +81,7 @@ parse_scripts <- function
 get_full_function_info <- function(trees)
 {
   infos <- lapply(trees, function(tree) {
-
-    functions <- get_functions(tree)
-
-    rbindAll(lapply(functions, get_function_info))
+    rbindAll(lapply(get_functions(tree), get_function_info))
   })
 
   functionInfo <- rbindAll(infos, nameColumn = "script")

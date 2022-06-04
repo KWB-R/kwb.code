@@ -4,8 +4,14 @@
 \alias{extract_from_parse_tree}
 \title{Extract Elements from Parse Tree of R Script}
 \usage{
-extract_from_parse_tree(x, matches = matches_function, dbg = FALSE,
-  path = integer(), parent = NULL, index = -1)
+extract_from_parse_tree(
+  x,
+  matches = matches_function,
+  dbg = FALSE,
+  path = integer(),
+  parent = NULL,
+  index = -1
+)
 }
 \arguments{
 \item{x}{parse tree as returned by \code{parse}}

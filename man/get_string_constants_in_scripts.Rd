@@ -4,8 +4,12 @@
 \alias{get_string_constants_in_scripts}
 \title{Get Frequency of String Constant Usage in R Scripts}
 \usage{
-get_string_constants_in_scripts(root, scripts = dir(root, "\\\\.[Rr]$",
-  recursive = TRUE), two_version_check = TRUE)
+get_string_constants_in_scripts(
+  root,
+  scripts = dir(root, "\\\\.[Rr]$", recursive = TRUE),
+  two_version_check = TRUE,
+  FUN = NULL
+)
 }
 \arguments{
 \item{root}{path to folder in which to look for R scripts}
@@ -17,6 +21,10 @@ constants, relative to \code{root}}
 implementations of this function are used and the results are compared
 internally. Set this argument to \code{FALSE} to get the result as fast
 as possible.}
+
+\item{FUN}{optional. Function used to browse the code tree for string
+constants. If \code{NULL} (the default), 
+\code{kwb.code:::fetch_string_constants_1} is used.}
 }
 \value{
 data frame with columns \code{file_id} (file identifier),

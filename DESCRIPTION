@@ -8,7 +8,8 @@ Authors@R: c(person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.
 Imports:
     dplyr,
     kwb.file,
-    kwb.utils
+    kwb.utils,
+    stringr
 Remotes: 
     github::kwb-r/kwb.utils,
     github::kwb-r/kwb.file
@@ -19,6 +20,10 @@ ByteCompile: true
 URL: https://github.com/KWB-R/kwb.code
 BugReports: https://github.com/KWB-R/kwb.code/issues
 Suggests: 
+    knitr,
     covr,
-    testthat
-RoxygenNote: 6.1.1
+    testthat (>= 3.0.0),
+    rmarkdown
+RoxygenNote: 7.1.2
+VignetteBuilder: knitr
+Config/testthat/edition: 3

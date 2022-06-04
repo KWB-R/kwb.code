@@ -68,7 +68,7 @@ normalNames <- function(n, version = 1)
 ## expr is `body(f)`, keyvals is a lookup table for replacements
 replaceNames <- function(expr, keyvals = NULL, dbg = FALSE)
 {
-  catIf(dbg, "replaceNames(", deparse(expr)[1], ")...\n")
+  catIf(dbg, "replaceNames(", deparse(expr)[1L], ")...\n")
 
   if (is_function_assignment(expr)) {
     
