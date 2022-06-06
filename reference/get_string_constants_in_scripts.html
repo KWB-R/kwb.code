@@ -95,6 +95,7 @@ constants. If <code>NULL</code> (the default),
 <span class="r-in"><span class="va">constants</span> <span class="op">&lt;-</span> <span class="fu">get_string_constants_in_scripts</span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Splitting paths ... ok. (0.00s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Removing the first 7 path segments ... ok. (0.00s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading /Users/runner/work/_temp/Library/kwb.code/extdata/cleanCodeBasics.R ... ok. (0.00s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading /Users/runner/work/_temp/Library/kwb.code/extdata/codeUsage.R ... ok. (0.00s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading /Users/runner/work/_temp/Library/kwb.code/extdata/testcalls_1.R ... ok. (0.00s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading /Users/runner/work/_temp/Library/kwb.code/extdata/testcalls_2.R ... ok. (0.00s) </span>
@@ -102,10 +103,11 @@ constants. If <code>NULL</code> (the default),
 <span class="r-in"><span class="co"># Get paths to files from "file database" stored in attribute "file_db"</span></span>
 <span class="r-in"><span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/getAttribute.html" class="external-link">getAttribute</a></span><span class="op">(</span><span class="va">constants</span>, <span class="st">"file_db"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $files</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   file_id     file_name folder_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 file_01   codeUsage.R folder_01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 file_02 testcalls_1.R folder_01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 file_03 testcalls_2.R folder_01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   file_id         file_name folder_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 file_01 cleanCodeBasics.R folder_01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 file_02       codeUsage.R folder_01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 file_03     testcalls_1.R folder_01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 file_04     testcalls_2.R folder_01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $folders</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   folder_id folder_path</span>
