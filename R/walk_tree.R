@@ -179,7 +179,7 @@ evaluate_checks <- function(x, config, path)
   
   if (result$modified) {
     cat("Node was modified:\n")
-    str(result[c("old_node", "new_node")])
+    utils::str(result[c("old_node", "new_node")])
   }
   
   result
