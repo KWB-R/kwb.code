@@ -8,6 +8,9 @@
 #' @param dbg whether or not to show debug messages
 #' @param config list defining modifications of nodes in the node tree. 
 #' TODO: describe further
+#' @param context if not \code{NULL} (the default) this is expected to be a list
+#'   containing additional data. Currently list element "file" is used to pass
+#'   the name of the script that the current tree was read from.
 #' @export
 #' @examples
 #' walk_tree(parse(text = "x <- 1:n"))
