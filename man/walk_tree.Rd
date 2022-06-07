@@ -10,7 +10,8 @@ walk_tree(
   depth = 0L,
   max_depth = 20L,
   dbg = TRUE,
-  config = list()
+  config = list(),
+  context = NULL
 )
 }
 \arguments{
