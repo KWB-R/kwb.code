@@ -11,3 +11,5 @@
 ^\.Rproj\.user$
 ^index.Rmd$
 ^index.md$
+^\.github$
+^pkgdown$

@@ -1,10 +1,10 @@
-
-[![Appveyor build Status](https://ci.appveyor.com/api/projects/status/github/KWB-R/kwb.code?branch=master&svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-code/branch/master) 
-[![Travis build Status](https://travis-ci.org/KWB-R/kwb.code.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.code) 
+[![R-CMD-check](https://github.com/KWB-R/kwb.code/workflows/R-CMD-check/badge.svg)](https://github.com/KWB-R/kwb.code/actions?query=workflow%3AR-CMD-check)
+[![pkgdown](https://github.com/KWB-R/kwb.code/workflows/pkgdown/badge.svg)](https://github.com/KWB-R/kwb.code/actions?query=workflow%3Apkgdown)
 [![codecov](https://codecov.io/github/KWB-R/kwb.code/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.code) 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) 
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3385170.svg)](https://doi.org/10.5281/zenodo.3385170)
+[![R-Universe_Status_Badge](https://kwb-r.r-universe.dev/badges/kwb.code)](https://kwb-r.r-universe.dev/)
 
 # kwb.code
 

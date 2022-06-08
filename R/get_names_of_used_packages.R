@@ -25,9 +25,7 @@ get_names_of_used_packages <- function(root_dir, pattern = "[.][rR](md)?$")
 
   usage_lines <- sort(unique(unlist(package_usages)))
 
-  library_pattern <- "library\\(([^)]+)\\)"
-
-  package_names <- extractSubstring(library_pattern, usage_lines, 1)
+  package_names <- extractSubstring("library\\(([^)]+)\\)", usage_lines, 1L)
 
   packages <- sort(unique(multiSubstitute(package_names, list(
     "^\"|\"$" = "",
