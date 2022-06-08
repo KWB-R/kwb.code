@@ -4,6 +4,7 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) 
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3385170.svg)](https://doi.org/10.5281/zenodo.3385170)
+[![R-Universe_Status_Badge](https://kwb-r.r-universe.dev/badges/kwb.code)](https://kwb-r.r-universe.dev/)
 
 # kwb.code
 

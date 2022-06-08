@@ -4,15 +4,25 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.code)]()
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3385170.svg)](https://doi.org/10.5281/zenodo.3385170)
+[![R-Universe_Status_Badge](https://kwb-r.r-universe.dev/badges/kwb.code)](https://kwb-r.r-universe.dev/)
 
 This package allows you to parse your R scripts and to calculate some staticstics on your code.
 
 ## Installation
 
-Install the package from Github: 
+For installing the latest release of this R package run the following code below:
+
 ```r
-#install.packages("remotes")
-remotes::install_github("kwb-r/kwb.code")
+# Enable repository from kwb-r
+options(repos = c(
+  kwbr = 'https://kwb-r.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+  
+# Download and install kwb.code in R
+install.packages('kwb.code')
+
+# Browse the kwb.code manual pages
+help(package = 'kwb.code')
 ```
 
 ## Basic Usage

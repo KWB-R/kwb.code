@@ -1,29 +1,36 @@
 Package: kwb.code
-Version: 0.1.0
 Title: Analyse Your R Code!
-Description: This package allows you to parse your R scripts and to calculate some staticstics on your code.
-Authors@R: c(person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de",
-           role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
-           person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = c("cph")))
+Version: 0.2.0
+Authors@R: c(
+    person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9134-2871")),
+    person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", role = "ctb",
+           comment = "0000-0003-0647-7726"),
+    person("FAKIN", role = "fnd"),
+    person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = "cph")
+  )
+Description: This package allows you to parse your R scripts and to
+    calculate some staticstics on your code.
+License: MIT + file LICENSE
+URL: https://github.com/KWB-R/kwb.code
+BugReports: https://github.com/KWB-R/kwb.code/issues
 Imports:
     dplyr,
     kwb.file,
     kwb.utils,
     stringr
+Suggests: 
+    covr,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
 Remotes: 
-    github::kwb-r/kwb.utils,
-    github::kwb-r/kwb.file
-License: MIT + file LICENSE
+    github::kwb-r/kwb.file,
+    github::kwb-r/kwb.utils
+ByteCompile: true
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-ByteCompile: true
-URL: https://github.com/KWB-R/kwb.code
-BugReports: https://github.com/KWB-R/kwb.code/issues
-Suggests: 
-    knitr,
-    covr,
-    testthat (>= 3.0.0),
-    rmarkdown
 RoxygenNote: 7.1.2
-VignetteBuilder: knitr
-Config/testthat/edition: 3
