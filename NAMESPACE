@@ -2,6 +2,7 @@
 
 export(analyse)
 export(arg_names)
+export(find_string_constants)
 export(get_elements_by_type)
 export(get_full_function_info)
 export(get_names_of_used_packages)
