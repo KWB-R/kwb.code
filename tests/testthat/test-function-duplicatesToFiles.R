@@ -1,21 +1,27 @@
 #library(testthat)
 
+f1 <- function() { x <- 1 }
+
 test_that("duplicatesToFiles() works", {
 
   f <- kwb.code:::duplicatesToFiles
   
   expect_error(f())
 
-  trees <- kwb.code::parse_scripts("./R")
+  root <- if ("tests" %in% dir()) "./tests/testthat/" else "."
+  
+  #writeLines("f1 <- function(x) x + 1", file.path(root, "script.R"))
+  
+  capture.output(trees <- kwb.code::parse_scripts(root = root))
 
   fun_duplicates <- data.frame(
-    script = "main.R",
-    functionName = "parse_scripts"
+    script = "test-function-duplicatesToFiles.R",
+    functionName = "f1"
   )
   
-  path <- f(trees, fun_duplicates, function_name = "parse_scripts")
+  capture.output(path <- f(trees, fun_duplicates, function_name = "f1"))
   
   expect_true(file.exists(path))
-  expect_true(length(dir(path, "^parse_scripts")) > 0L)
+  expect_true(length(dir(path, "^f1")) > 0L)
 
 })

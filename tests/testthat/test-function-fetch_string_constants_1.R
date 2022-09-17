@@ -4,11 +4,13 @@ test_that("fetch_string_constants_1() works", {
   
   expect_error(f())
 
-  capture.output(tree <- kwb.code::parse_scripts("./R"))
+  root <- if ("tests" %in% dir()) "./tests/testthat/" else "."
+
+  capture.output(tree <- kwb.code::parse_scripts(root))
   
   result <- f(tree)
   
   expect_true(is.list(result))
-  expect_true("utils.R" %in% names(result))
+  expect_true("test-function-fetch_string_constants_1.R" %in% names(result))
   expect_true(all(sapply(result, mode) == "character"))
 })

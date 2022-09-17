@@ -4,7 +4,11 @@ test_that("get_package_usage_per_script() works", {
   
   expect_error(f())
 
-  result <- f("./R", packages = "kwb.utils")
+  root <- if ("tests" %in% dir()) "./tests/testthat/" else getwd()
+  
+  capture.output(suppressMessages(
+    result <- f(root, packages = "kwb.utils")
+  ))
   
   expect_s3_class(result, "data.frame")
   
