@@ -1,6 +1,6 @@
 #' Show String Constants Used in R Scripts
 #'
-#' @root path from which to look recursively for R scripts
+#' @param root path from which to look recursively for R scripts
 #' @export
 find_string_constants <- function(root = "./R")
 {
