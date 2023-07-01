@@ -11,25 +11,51 @@ find_weaknesses_in_scripts <- function(root)
 {
   x <- parse_scripts(root)
   
-  rbind(
-    find_code_snippets(x, is_colon_seq_1_to_variable, "use seq_len()"),
-    find_code_snippets(x, is_colon_seq_1_to_length, "use seq_along()"),
-    find_code_snippets(x, is_bad_function_name, "avoid dot in function name", 
-                       type = 2L)
+  results <- list(
+    find_code_snippets(
+      x, 
+      check_function = is_colon_seq_1_to_variable, 
+      recommendation = "use seq_len()"
+    ),
+    find_code_snippets(
+      x, 
+      check_function = is_colon_seq_1_to_length, 
+      recommendation = "use seq_along()"
+    ),
+    find_code_snippets(
+      x, 
+      check_function = is_bad_function_name, 
+      recommendation = "avoid dot in function name", 
+      type = 2L
+    )
   )
+  
+  strings <- find_code_snippets(x, is.character, "check for duplicated strings")
+  
+  is_relevant <- nchar(as.character(strings$expression)) > 5L & 
+    strings$frequency > 1
+
+  if (any(is_relevant)) {
+    results <- c(results, list(strings[is_relevant, ]))
+  }
+  
+  do.call(rbind, results)
 }
 
 # find_code_snippets -----------------------------------------------------------
-find_code_snippets <- function(x, check_function, recommendation = "", ...)
+find_code_snippets <- function(x, check_function, recommendation = "", type = 1L)
 {
-  cbind(
-    summarise_extracted_matches(
-      extract_from_parse_tree(x, matches = to_matches_function(
-        check_function, ...
-      ))
-    ), 
-    recommendation = recommendation
+  matches <- to_matches_function(check_function, type = type)
+  
+  result <- summarise_extracted_matches(
+    extract_from_parse_tree(x, matches = matches)
   )
+  
+  if (nrow(result) == 0L) {
+    return(NULL)
+  }
+  
+  cbind(result, recommendation = recommendation)
 }
 
 # to_matches_function ----------------------------------------------------------
