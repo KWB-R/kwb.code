@@ -2,14 +2,23 @@
 
 #' Find weaknesses in R scripts
 #' 
+#' @param x list of named parse trees as returned by
+#'   \code{\link{parse_scripts}}. Not required if \code{root} is given.
 #' @param root path to folder containing R scripts
 #' @return data frame with columns \code{file}, \code{expression},
 #'   \code{frequency}, \code{recommendation}
 #' @export
 #' 
-find_weaknesses_in_scripts <- function(root)
+find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
 {
-  x <- parse_scripts(root)
+  is_expression <- sapply(x, is.expression)
+  is_error <- sapply(x, kwb.utils::isTryError)
+  
+  stopifnot(all(is_expression | is_error))
+  
+  # Remove scripts that could not be parsed by setting elements to NULL first
+  x[is_error] <- lapply(which(is_error), function(i) NULL)
+  x <- kwb.utils::excludeNULL(x)
   
   results <- list(
     find_code_snippets(
