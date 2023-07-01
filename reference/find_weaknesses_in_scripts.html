@@ -51,12 +51,17 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_weaknesses_in_scripts</span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_weaknesses_in_scripts</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span>, root <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>root</dt>
+    <dl><dt>x</dt>
+<dd><p>list of named parse trees as returned by
+<code><a href="parse_scripts.html">parse_scripts</a></code>. Not required if <code>root</code> is given.</p></dd>
+
+
+<dt>root</dt>
 <dd><p>path to folder containing R scripts</p></dd>
 
 </dl></div>
