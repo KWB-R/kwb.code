@@ -6,6 +6,9 @@
 \usage{
 find_string_constants(root = "./R")
 }
+\arguments{
+\item{root}{path from which to look recursively for R scripts}
+}
 \description{
 Show String Constants Used in R Scripts
 }
