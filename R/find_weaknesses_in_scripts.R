@@ -5,11 +5,20 @@
 #' @param x list of named parse trees as returned by
 #'   \code{\link{parse_scripts}}. Not required if \code{root} is given.
 #' @param root path to folder containing R scripts
+#' @param min_duplicate_string_length minimum number of characters that a 
+#'   string constant must have to be considered as a duplicate
+#' @param min_duplicate_frequency minimum frequency of a string constant to
+#'   be considered as a duplicate
 #' @return data frame with columns \code{file}, \code{expression},
 #'   \code{frequency}, \code{recommendation}
 #' @export
 #' 
-find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
+find_weaknesses_in_scripts <- function(
+    x = parse_scripts(root), 
+    root = NULL,
+    min_duplicate_string_length = 6L,
+    min_duplicate_frequency = 3L
+)
 {
   is_expression <- sapply(x, is.expression)
   is_error <- sapply(x, kwb.utils::isTryError)
@@ -46,7 +55,7 @@ find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
     find_code_snippets(
       x, 
       check_function = is_comparison_with_true,
-      recommendation = "use just 'x' instead of 'x == TRUE/T'"
+      recommendation = "use 'x' instead of 'x == TRUE/T'"
     ),
     find_code_snippets(
       x, 
@@ -57,8 +66,9 @@ find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
   
   strings <- find_code_snippets(x, is.character, "check for duplicated strings")
   
-  is_relevant <- nchar(as.character(strings$expression)) > 5L & 
-    strings$frequency > 1
+  is_relevant <- 
+    nchar(as.character(strings$expression)) >= min_duplicate_string_length & 
+    strings$frequency >= min_duplicate_frequency
 
   if (any(is_relevant)) {
     results <- c(results, list(strings[is_relevant, ]))

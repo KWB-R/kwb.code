@@ -4,13 +4,24 @@
 \alias{find_weaknesses_in_scripts}
 \title{Find weaknesses in R scripts}
 \usage{
-find_weaknesses_in_scripts(x = parse_scripts(root), root = NULL)
+find_weaknesses_in_scripts(
+  x = parse_scripts(root),
+  root = NULL,
+  min_duplicate_string_length = 6L,
+  min_duplicate_frequency = 3L
+)
 }
 \arguments{
 \item{x}{list of named parse trees as returned by
 \code{\link{parse_scripts}}. Not required if \code{root} is given.}
 
 \item{root}{path to folder containing R scripts}
+
+\item{min_duplicate_string_length}{minimum number of characters that a 
+string constant must have to be considered as a duplicate}
+
+\item{min_duplicate_frequency}{minimum frequency of a string constant to
+be considered as a duplicate}
 }
 \value{
 data frame with columns \code{file}, \code{expression},
