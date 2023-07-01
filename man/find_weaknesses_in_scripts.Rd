@@ -4,9 +4,12 @@
 \alias{find_weaknesses_in_scripts}
 \title{Find weaknesses in R scripts}
 \usage{
-find_weaknesses_in_scripts(root)
+find_weaknesses_in_scripts(x = parse_scripts(root), root = NULL)
 }
 \arguments{
+\item{x}{list of named parse trees as returned by
+\code{\link{parse_scripts}}. Not required if \code{root} is given.}
+
 \item{root}{path to folder containing R scripts}
 }
 \value{

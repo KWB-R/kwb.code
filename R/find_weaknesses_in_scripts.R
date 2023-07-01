@@ -35,7 +35,13 @@ find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
       x, 
       check_function = is_bad_function_name, 
       recommendation = "avoid dot in function name", 
-      type = 2L
+      type = "element_2"
+    ),
+    find_code_snippets(
+      x, 
+      check_function = is_true_or_false_constant,
+      recommendation = "use TRUE/FALSE instead of T/F",
+      type = "parent"
     )
   )
   
@@ -52,7 +58,9 @@ find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
 }
 
 # find_code_snippets -----------------------------------------------------------
-find_code_snippets <- function(x, check_function, recommendation = "", type = 1L)
+find_code_snippets <- function(
+    x, check_function, recommendation = "", type = "self"
+)
 {
   matches <- to_matches_function(check_function, type = type)
   
@@ -68,7 +76,7 @@ find_code_snippets <- function(x, check_function, recommendation = "", type = 1L
 }
 
 # to_matches_function ----------------------------------------------------------
-to_matches_function <- function(check_function, type = 1L)
+to_matches_function <- function(check_function, type = "self")
 {
   function(x, parent, index) {
     
@@ -77,13 +85,27 @@ to_matches_function <- function(check_function, type = 1L)
     }
     
     structure(TRUE, name = kwb.utils::collapsed(
-      if (type == 1L) {
+      if (identical(type, "self")) {
         deparse(x)
-      } else if (type == 2L) {
+      } else if (identical(type, "element_2")) {
         deparse(x[[2L]])
+      } else if (identical(type, "parent")) {
+        deparse(parent)
+      } else {
+        stop("unknown type: ", type)
       }
     ))
   }
+}
+
+# is_true_or_false_constant ----------------------------------------------------
+is_true_or_false_constant <- function(x)
+{
+  if (!is.symbol(x)) {
+    return(FALSE)
+  }
+  
+  deparse(x) %in% c("T", "F")
 }
 
 # is_colon_seq_1_to_length -----------------------------------------------------
