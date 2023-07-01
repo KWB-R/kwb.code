@@ -39,9 +39,19 @@ find_weaknesses_in_scripts <- function(x = parse_scripts(root), root = NULL)
     ),
     find_code_snippets(
       x, 
-      check_function = is_true_or_false_constant,
+      check_function = is_logical_constant,
       recommendation = "use TRUE/FALSE instead of T/F",
       type = "parent"
+    ),
+    find_code_snippets(
+      x, 
+      check_function = is_comparison_with_true,
+      recommendation = "use just 'x' instead of 'x == TRUE/T'"
+    ),
+    find_code_snippets(
+      x, 
+      check_function = is_comparison_with_false,
+      recommendation = "use '!x' instead of 'x == FALSE/F'"
     )
   )
   
@@ -76,7 +86,7 @@ find_code_snippets <- function(
 }
 
 # to_matches_function ----------------------------------------------------------
-to_matches_function <- function(check_function, type = "self")
+to_matches_function <- function(check_function, type = "self", max_chars = 50L)
 {
   function(x, parent, index) {
     
@@ -84,28 +94,69 @@ to_matches_function <- function(check_function, type = "self")
       return(FALSE)
     }
     
-    structure(TRUE, name = kwb.utils::collapsed(
-      if (identical(type, "self")) {
-        deparse(x)
-      } else if (identical(type, "element_2")) {
-        deparse(x[[2L]])
-      } else if (identical(type, "parent")) {
-        deparse(parent)
-      } else {
-        stop("unknown type: ", type)
-      }
-    ))
+    structure(
+      TRUE, 
+      name = kwb.utils::shorten(max_chars = max_chars, kwb.utils::collapsed(
+        if (identical(type, "self")) {
+          deparse(x)
+        } else if (identical(type, "element_2")) {
+          deparse(x[[2L]])
+        } else if (identical(type, "parent")) {
+          deparse(parent)
+        } else {
+          stop("unknown type: ", type)
+        }
+      ))
+    )
   }
 }
 
-# is_true_or_false_constant ----------------------------------------------------
-is_true_or_false_constant <- function(x)
+# is_logical_constant_false ----------------------------------------------------
+is_logical_constant_false <- function(x, type = "short")
+{
+  is_logical_constant(x, type, use_true = FALSE)
+}
+
+# is_logical_constant_true -----------------------------------------------------
+is_logical_constant_true <- function(x, type = "short")
+{
+  is_logical_constant(x, type, use_false = FALSE)
+}
+
+# is_logical_constant ----------------------------------------------------------
+is_logical_constant <- function(
+    x, 
+    type = "short", 
+    use_false = TRUE, 
+    use_true = TRUE
+)
 {
   if (!is.symbol(x)) {
     return(FALSE)
   }
+
+  deparse(x) %in% deparsed_logical_values(type, use_false, use_true)
+}
+
+# deparsed_logical_values ------------------------------------------------------
+deparsed_logical_values <- function(
+    type = c("short", "long", "either")[3L],
+    use_false = TRUE,
+    use_true = TRUE
+)
+{
+  values <- c("F", "T", "FALSE", "TRUE")
+  use_false_true <- c(use_false, use_true)
   
-  deparse(x) %in% c("T", "F")
+  if (type == "short") {
+    values[1:2][use_false_true]
+  } else if (type == "long") {
+    values[3:4][use_false_true]
+  } else if (type == "either") {
+    values[rep(use_false_true, 2L)]
+  } else {
+    stop("Unknown type: ", type)
+  }
 }
 
 # is_colon_seq_1_to_length -----------------------------------------------------
@@ -150,6 +201,34 @@ is_bad_function_name <- function(x)
   
   is.name(function_name) && 
     grepl("\\.", deparse(function_name))
+}
+
+
+# is_comparison_with_false -----------------------------------------------------
+is_comparison_with_false <- function(x)
+{
+  is_comparison_with_logical(x, use_true = FALSE)
+}
+
+# is_comparison_with_true ------------------------------------------------------
+is_comparison_with_true <- function(x)
+{
+  is_comparison_with_logical(x, use_false = FALSE)
+}
+
+# is_comparison_with_logical ---------------------------------------------------
+is_comparison_with_logical <- function(x, use_false = TRUE, use_true = TRUE)
+{
+  if (!is.call(x)) {
+    return(FALSE)
+  }
+
+  operator <- deparse(x[[1]])
+  
+  operator %in% c("==", "!=") && (
+    is_logical_constant(x[[2]], type = "either", use_false, use_true) ||
+      is_logical_constant(x[[3]], type = "either", use_false, use_true)
+  )
 }
 
 # summarise_extracted_matches --------------------------------------------------
