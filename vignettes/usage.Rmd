@@ -1,0 +1,134 @@
+---
+title: "How to use this package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to use this package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Exported functions
+
+### analyse()
+
+The parse tree is analysed. Each node of the tree is given the following
+attributes:
+
+- type
+- mode
+- class
+- length
+- text
+- is
+- n_modes
+- n_classes
+- path
+- fulltype
+- children
+
+The idea probably was to use these information to extract objects of special
+interest from the parse tree (see below: get_elements_by_type())
+
+```{r setup}
+url_log <- "https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R"
+url_main <- "https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/main.R"
+
+x <- parse(url_log)
+
+result <- kwb.code::analyse(x)
+```
+
+## arg_names()
+
+This function returns the names of the arguments of a function:
+
+```{r}
+kwb.code::arg_names(kwb.utils::selectColumns)
+```
+## find_string_constants()
+
+This function requires a directory of R scripts. All scripts are parsed. 
+String constants that are used in the script are returned.
+
+```{r result = "asis"}
+# Provide scripts in a folder
+root <- kwb.utils::createDirectory(kwb.utils::tempSubdirectory("test"))
+
+url <- url_main
+download.file(url, destfile = file.path(root, basename(url)), mode = "wt")
+
+string_constants <- kwb.code::find_string_constants(root)
+
+knitr::kable(string_constants)
+```
+
+## find_weaknesses_in_scripts()
+
+Check for expressions in scripts that can be improved.
+
+```{r result = "asis"}
+x <- parse(text = c(
+  "texts <- c(", 
+  "  paste('this is a very long', 'text'),",
+  "  paste('this is a very long', 'string')",
+  ")",
+  "",
+  "indices <- 1:length(texts)"
+))
+
+weaknesses <- kwb.code::find_weaknesses_in_scripts(
+  x = list(test = x), 
+  min_duplicate_frequency = 2L
+)
+
+knitr::kable(weaknesses)
+```
+
+## get_elements_by_type
+
+This function groups similar elements that are found in a parse tree.
+
+```{r}
+# Parse an R script file (here, a file from kwb.utils)
+x <- parse(url_log)
+
+# For each "type" of code segment, extract all occurrences
+elements <- kwb.code::get_elements_by_type(x, result = result)
+
+# Show all code blocks in curly braces
+elements[["language|call|{|2|"]]
+```
+## get_full_function_info()
+
+This function analyses a list of parse trees each of which has been read from an
+R script.
+
+It provides information on the functions that are defined in the scripts:
+
+- script: script name
+- functionName: function name 
+- n.def: always 1 (?)
+- bodyClass: always "{" (?)
+- n.args: number of arguments
+- n.defaults: number of arguments with a default
+- n.expr: number of expressions
+
+```{r}
+kwb.code::get_full_function_info(trees = kwb.code::parse_scripts(root))
+```
+
+## get_names_of_used_packages()
+
+What packages are used in the scripts?
+
+```{r}
+kwb.code::get_names_of_used_packages(root)
+```
+
