@@ -3,8 +3,10 @@ title: "How to use this package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{How to use this package}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -14,6 +16,32 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Provide some example R scripts locally
+
+In order to test the functions of this package some R scripts are downloaded
+from GitHub and provided locally:
+
+```{r}
+urls <- kwb.utils::resolve(list(
+  kwb = "https://raw.githubusercontent.com/KWB-R",
+  utils = "<kwb>/kwb.utils/master/R",
+  log = "<utils>/log.R",
+  main = "<utils>/main.R",
+  fakin = "<kwb>/kwb.fakin/master/R/plot_file_distribution.R"
+))
+
+# Create a temporary folder
+root <- kwb.utils::createDirectory(kwb.utils::tempSubdirectory("test"))
+
+# Helper function to download a text file to the temporary folder
+download_script <- function(url) {
+  download.file(url, destfile = file.path(root, basename(url)), mode = "wt")
+}
+
+download_script(urls$fakin)
+download_script(urls$log)
+download_script(urls$main)
+```
 ## Exported functions
 
 ### analyse()
@@ -36,11 +64,8 @@ attributes:
 The idea probably was to use these information to extract objects of special
 interest from the parse tree (see below: get_elements_by_type())
 
-```{r setup}
-url_log <- "https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R"
-url_main <- "https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/main.R"
-
-x <- parse(url_log)
+```{r}
+x <- parse(urls$log)
 
 result <- kwb.code::analyse(x)
 ```
@@ -58,12 +83,6 @@ This function requires a directory of R scripts. All scripts are parsed.
 String constants that are used in the script are returned.
 
 ```{r result = "asis"}
-# Provide scripts in a folder
-root <- kwb.utils::createDirectory(kwb.utils::tempSubdirectory("test"))
-
-url <- url_main
-download.file(url, destfile = file.path(root, basename(url)), mode = "wt")
-
 string_constants <- kwb.code::find_string_constants(root)
 
 knitr::kable(string_constants)
@@ -97,7 +116,7 @@ This function groups similar elements that are found in a parse tree.
 
 ```{r}
 # Parse an R script file (here, a file from kwb.utils)
-x <- parse(url_log)
+x <- parse(urls$log)
 
 # For each "type" of code segment, extract all occurrences
 elements <- kwb.code::get_elements_by_type(x, result = result)
@@ -120,15 +139,52 @@ It provides information on the functions that are defined in the scripts:
 - n.defaults: number of arguments with a default
 - n.expr: number of expressions
 
-```{r}
-kwb.code::get_full_function_info(trees = kwb.code::parse_scripts(root))
+```{r results = "asis"}
+trees <- kwb.code::parse_scripts(root, dbg = FALSE)
+function_info <- kwb.code::get_full_function_info(trees)
+knitr::kable(function_info)
 ```
 
 ## get_names_of_used_packages()
 
-What packages are used in the scripts?
+What packages are used in the scripts? 
 
 ```{r}
 kwb.code::get_names_of_used_packages(root)
+```
+This function simply looks for calls to `library()`. It does not take into 
+account functions that are called with `::` as the following simple `grep()`
+reveals:
+
+```{r}
+pattern <- "[^A-Za-z_.]([A-Za-z_.]+::[A-Za-z_.]+)[^A-Za-z_.]"
+
+text <- grep(pattern, readLines(urls$fakin), value = TRUE)
+
+unique(kwb.utils::extractSubstring(pattern, text, index = 1))
+```
+TODO: Use another function instead...
+
+## get_package_function_usage()
+
+```{r results = "asis"}
+tree <- kwb.code::parse_scripts(root, dbg = FALSE)
+function_usage <- kwb.code::get_package_function_usage(
+  tree, 
+  package = "kwb.utils"
+)
+
+knitr::kable(function_usage)
+```
+
+## get_package_usage_per_script()
+
+```{r results = "asis"}
+package_usage <- kwb.code::get_package_usage_per_script(
+  root, 
+  packages = "kwb.utils"
+)
+
+knitr::kable(package_usage)
 ```
 
