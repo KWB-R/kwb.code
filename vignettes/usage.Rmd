@@ -22,32 +22,27 @@ In order to test the functions of this package some R scripts are downloaded
 from GitHub and provided locally:
 
 ```{r}
-# Define URLs to some example scripts
-urls <- kwb.utils::resolve(list(
-  kwb = "https://raw.githubusercontent.com/KWB-R",
-  utils = "<kwb>/kwb.utils/master/R",
-  fakin = "<kwb>/kwb.fakin/master/R",
-  log = "<utils>/log.R",
-  main = "<utils>/main.R",
-  plot_file_distribution = "<fakin>/plot_file_distribution.R"
-))
-
 # Create a temporary folder
 root <- kwb.utils::tempSubdirectory("test")
 
-# Helper function to download a text file to the temporary folder
-download_script <- function(url) {
-  download.file(
-    url, 
-    destfile = file.path(root, basename(url)), 
-    mode = "wt"
+# Function to download a script file from a KWB package on GitHub
+download_kwb_script <- function(repo, script)
+{
+  url <- sprintf(
+    "https://raw.githubusercontent.com/%s/master/R/%s", 
+    repo, script
   )
+  destfile <- file.path(root, basename(url))
+  download.file(url, destfile = destfile, mode = "wt")
+  destfile
 }
 
 # Download three scripts to the temporary folder
-download_script(urls$plot_file_distribution)
-download_script(urls$log)
-download_script(urls$main)
+scripts <- c(
+  download_kwb_script("KWB-R/kwb.utils", "log.R"),
+  download_kwb_script("KWB-R/kwb.utils", "main.R"),
+  download_kwb_script("KWB-R/kwb.fakin", "plot_file_distribution.R")
+)
 ```
 ## Exported functions
 
@@ -72,7 +67,7 @@ The idea probably was to use these information to extract objects of special
 interest from the parse tree (see below: get_elements_by_type())
 
 ```{r}
-x <- parse(urls$log)
+x <- parse(scripts[1L])
 
 result <- kwb.code::analyse(x)
 ```
@@ -123,7 +118,7 @@ This function groups similar elements that are found in a parse tree.
 
 ```{r}
 # Parse an R script file (here, a file from kwb.utils)
-x <- parse(urls$log)
+x <- parse(scripts[1L])
 
 # For each "type" of code segment, extract all occurrences
 elements <- kwb.code::get_elements_by_type(x, result = result)
@@ -167,7 +162,7 @@ reveals:
 ```{r}
 pattern <- "[^A-Za-z_.]([A-Za-z_.]+::[A-Za-z_.]+)[^A-Za-z_.]"
 
-text <- grep(pattern, readLines(urls$fakin), value = TRUE)
+text <- grep(pattern, readLines(scripts[3L]), value = TRUE)
 
 unique(kwb.utils::extractSubstring(pattern, text, index = 1))
 ```
@@ -231,7 +226,7 @@ knitr::kable(script_statistics)
 This function walks along a parse tree.
 
 ```{r}
-x <- parse(urls$log)
+x <- parse(scripts[1L])
 
 result <- kwb.code::walk_tree(x, dbg = FALSE)
 ```
