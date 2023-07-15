@@ -26,16 +26,14 @@ from GitHub and provided locally:
 urls <- kwb.utils::resolve(list(
   kwb = "https://raw.githubusercontent.com/KWB-R",
   utils = "<kwb>/kwb.utils/master/R",
+  fakin = "<kwb>/kwb.fakin/master/R",
   log = "<utils>/log.R",
   main = "<utils>/main.R",
-  fakin = "<kwb>/kwb.fakin/master/R/plot_file_distribution.R"
+  fakin = "<fakin>/plot_file_distribution.R"
 ))
 
 # Create a temporary folder
-root <- kwb.utils::createDirectory(
-  kwb.utils::tempSubdirectory("test"), 
-  dbg = FALSE
-)
+root <- kwb.utils::tempSubdirectory("test")
 
 # Helper function to download a text file to the temporary folder
 download_script <- function(url) {
