@@ -7,7 +7,7 @@ config <- list(checks = list(
       #substr(deparse(x)[1L], 1L, 2L) == "1:"
       identical(x[[1]], as.name(":")) &&
         identical(x[[2]], 1) &&
-        is.name(x[[3]])
+        (is.name(x[[3]]) || is.call(x[[3]]))
     },
     report = function(x) {
       cat("\nExpression of type '1:n' found: ")
@@ -49,6 +49,16 @@ config <- list(checks = list(
       print(x)
     }
   )
+  # , call_renamed_function = list(
+  #   check = function(x) {
+  #     if (!is.call(x)) return(FALSE)
+  #     identical(x[[1L]], as.name("sum"))
+  #   },
+  #   report = function(x) {
+  #     cat("sum is called:")
+  #     print(x)
+  #   }
+  # )
   
 ))
 
@@ -56,7 +66,7 @@ config <- list(checks = list(
 if (FALSE)
 {
   #files <- dir_r_files("R")
-  files <- dir_r_files("~/github-repos/K")
+  files <- dir_r_files("~/github-repos/K/kwb.misa")
   files <- dir_r_files("~/R-Development/RScripts")
 
   cat("\n     ")
