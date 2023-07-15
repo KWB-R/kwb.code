@@ -29,7 +29,7 @@ urls <- kwb.utils::resolve(list(
   fakin = "<kwb>/kwb.fakin/master/R",
   log = "<utils>/log.R",
   main = "<utils>/main.R",
-  fakin = "<fakin>/plot_file_distribution.R"
+  plot_file_distribution = "<fakin>/plot_file_distribution.R"
 ))
 
 # Create a temporary folder
@@ -45,7 +45,7 @@ download_script <- function(url) {
 }
 
 # Download three scripts to the temporary folder
-download_script(urls$fakin)
+download_script(urls$plot_file_distribution)
 download_script(urls$log)
 download_script(urls$main)
 ```
