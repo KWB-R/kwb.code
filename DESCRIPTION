@@ -2,12 +2,28 @@ Package: kwb.code
 Title: Analyse Your R Code!
 Version: 0.3.0
 Authors@R: c(
-    person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-9134-2871")),
-    person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", role = "ctb",
-           comment = "0000-0003-0647-7726"),
-    person("FAKIN", role = "fnd"),
-    person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = "cph")
+    person(
+        given = "Hauke", 
+        family = "Sonnenberg", 
+        email = "hauke.sonnenberg@kompetenz-wasser.de", 
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0001-9134-2871")
+    ),
+    person(
+        given = "Michael", 
+        family = "Rustler", 
+        email = "michael.rustler@kompetenz-wasser.de", 
+        role = "ctb",
+        comment = "0000-0003-0647-7726"
+    ),
+    person(
+        given = "FAKIN", 
+        role = "fnd"
+    ),
+    person(
+        given = "Kompetenzzentrum Wasser Berlin gGmbH (KWB)", 
+        role = "cph"
+    )
   )
 Description: This package allows you to parse your R scripts and to
     calculate some staticstics on your code.
