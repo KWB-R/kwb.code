@@ -81,6 +81,41 @@
     
     
 <div class="section level2">
+<h2 id="provide-some-example-r-scripts-locally">Provide some example R scripts locally<a class="anchor" aria-label="anchor" href="#provide-some-example-r-scripts-locally"></a>
+</h2>
+<p>In order to test the functions of this package some R scripts are
+downloaded from GitHub and provided locally:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Define URLs to some example scripts</span></span>
+<span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/resolve.html" class="external-link">resolve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  kwb <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/KWB-R"</span>,</span>
+<span>  utils <span class="op">=</span> <span class="st">"&lt;kwb&gt;/kwb.utils/master/R"</span>,</span>
+<span>  log <span class="op">=</span> <span class="st">"&lt;utils&gt;/log.R"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"&lt;utils&gt;/main.R"</span>,</span>
+<span>  fakin <span class="op">=</span> <span class="st">"&lt;kwb&gt;/kwb.fakin/master/R/plot_file_distribution.R"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a temporary folder</span></span>
+<span><span class="va">root</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/createDirectory.html" class="external-link">createDirectory</a></span><span class="op">(</span></span>
+<span>  <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/tempSubdirectory.html" class="external-link">tempSubdirectory</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span>, </span>
+<span>  dbg <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Helper function to download a text file to the temporary folder</span></span>
+<span><span class="va">download_script</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">url</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span>
+<span>    <span class="va">url</span>, </span>
+<span>    destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    mode <span class="op">=</span> <span class="st">"wt"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Download three scripts to the temporary folder</span></span>
+<span><span class="fu">download_script</span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">fakin</span><span class="op">)</span></span>
+<span><span class="fu">download_script</span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
+<span><span class="fu">download_script</span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">main</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="exported-functions">Exported functions<a class="anchor" aria-label="anchor" href="#exported-functions"></a>
 </h2>
 <div class="section level3">
@@ -104,11 +139,8 @@ following attributes:</p>
 <p>The idea probably was to use these information to extract objects of
 special interest from the parse tree (see below:
 get_elements_by_type())</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">url_log</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/log.R"</span></span>
-<span><span class="va">url_main</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/KWB-R/kwb.utils/master/R/main.R"</span></span>
-<span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">url_log</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/analyse.html">analyse</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in as.POSIXct.default(x) : </span></span>
@@ -468,7 +500,7 @@ get_elements_by_type())</p>
 <h2 id="arg_names">arg_names()<a class="anchor" aria-label="anchor" href="#arg_names"></a>
 </h2>
 <p>This function returns the names of the arguments of a function:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/arg_names.html">arg_names</a></span><span class="op">(</span><span class="fu">kwb.utils</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/kwb.utils/man/selectColumns.html" class="external-link">selectColumns</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "x"       "columns" "pattern" "drop"    "do.stop"</span></span></code></pre></div>
 </div>
@@ -477,26 +509,21 @@ get_elements_by_type())</p>
 </h2>
 <p>This function requires a directory of R scripts. All scripts are
 parsed. String constants that are used in the script are returned.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Provide scripts in a folder</span></span>
-<span><span class="va">root</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/createDirectory.html" class="external-link">createDirectory</a></span><span class="op">(</span><span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/tempSubdirectory.html" class="external-link">tempSubdirectory</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The directory "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpMwRtoK/test" already exists.</span></span>
-<span></span>
-<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="va">url_main</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">url</span>, destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span><span class="op">)</span>, mode <span class="op">=</span> <span class="st">"wt"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/find_string_constants.html">find_string_constants</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/find_string_constants.html">find_string_constants</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Splitting paths ... ok. (0.00 secs) </span></span>
 <span><span class="co">#&gt; Removing the first 8 path segments ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpMwRtoK/test/main.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">string_constants</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="7%">
-<col width="11%">
-<col width="9%">
-<col width="64%">
+<col width="6%">
+<col width="10%">
+<col width="21%">
+<col width="56%">
 <col width="5%">
 </colgroup>
 <thead><tr class="header">
@@ -510,89 +537,117 @@ parsed. String constants that are used in the script are returned.</p>
 <tr class="odd">
 <td align="left">file_01</td>
 <td align="left">test</td>
+<td align="left">log.R</td>
+<td align="left"></td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_01</td>
+<td align="left">test</td>
+<td align="left">log.R</td>
+<td align="left">…</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_01</td>
+<td align="left">test</td>
+<td align="left">log.R</td>
+<td align="left">***</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">file_01</td>
+<td align="left">test</td>
+<td align="left">log.R</td>
+<td align="left">*** ok.</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left"></td>
 <td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">*** The object is empty!</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">as requested but</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">_()$</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">!</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">.</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">‘assign(x, value, envir = .GlobalEnv)’</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">(returned in attribute ‘invalid’)</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">%s_%d</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">%s_1</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">$</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">assignGlobally()</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">Bug in randomValuesWithSum(): The sum of generated
@@ -600,66 +655,80 @@ values is not</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">Division by zero. Using substitute value of</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">invalid</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">parName</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">parVal</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">stringsAsFactors</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">stringsAsFactors must be TRUE or FALSE</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">The first element must not be NA</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">There are differences in parallel non-NA values</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">file_01</td>
+<td align="left">file_02</td>
 <td align="left">test</td>
 <td align="left">main.R</td>
 <td align="left">There are duplicate values:</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_03</td>
+<td align="left">test</td>
+<td align="left">plot_file_distribution.R</td>
+<td align="left">lr</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_03</td>
+<td align="left">test</td>
+<td align="left">plot_file_distribution.R</td>
+<td align="left">v</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -669,7 +738,7 @@ values is not</td>
 <h2 id="find_weaknesses_in_scripts">find_weaknesses_in_scripts()<a class="anchor" aria-label="anchor" href="#find_weaknesses_in_scripts"></a>
 </h2>
 <p>Check for expressions in scripts that can be improved.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"texts &lt;- c("</span>, </span>
 <span>  <span class="st">"  paste('this is a very long', 'text'),"</span>,</span>
@@ -723,9 +792,9 @@ values is not</td>
 </h2>
 <p>This function groups similar elements that are found in a parse
 tree.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parse an R script file (here, a file from kwb.utils)</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">url_log</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># For each "type" of code segment, extract all occurrences</span></span>
 <span><span class="va">elements</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_elements_by_type.html">get_elements_by_type</a></span><span class="op">(</span><span class="va">x</span>, result <span class="op">=</span> <span class="va">result</span><span class="op">)</span></span>
@@ -768,37 +837,757 @@ scripts:</p>
 <li>n.defaults: number of arguments with a default</li>
 <li>n.expr: number of expressions</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_full_function_info.html">get_full_function_info</a></span><span class="op">(</span>trees <span class="op">=</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpMwRtoK/test/main.R ... ok. (0.00 secs)</span></span>
-<span><span class="co">#&gt;    script             functionName n.def bodyClass n.args n.defaults n.expr</span></span>
-<span><span class="co">#&gt; 1  main.R                assignAll     1         {      3          1      2</span></span>
-<span><span class="co">#&gt; 2  main.R           assignGlobally     1         {      2          0      2</span></span>
-<span><span class="co">#&gt; 3  main.R     assignPackageObjects     1         {      1          0      1</span></span>
-<span><span class="co">#&gt; 4  main.R          breakInSequence     1         {      2          1      2</span></span>
-<span><span class="co">#&gt; 5  main.R callWithStringsAsFactors     1         {      3          0      6</span></span>
-<span><span class="co">#&gt; 6  main.R             extendLimits     1         {      4          2      3</span></span>
-<span><span class="co">#&gt; 7  main.R           getEvenNumbers     1         {      1          0      1</span></span>
-<span><span class="co">#&gt; 8  main.R              getGlobally     1         {      3          2      2</span></span>
-<span><span class="co">#&gt; 9  main.R            getOddNumbers     1         {      1          0      1</span></span>
-<span><span class="co">#&gt; 10 main.R       hsMatrixToListForm     1         {      6          4      4</span></span>
-<span><span class="co">#&gt; 11 main.R               hsSafeName     1         {      2          0      3</span></span>
-<span><span class="co">#&gt; 12 main.R               makeUnique     1         {      4          3      3</span></span>
-<span><span class="co">#&gt; 13 main.R            naToLastNonNa     1         {      2          1      6</span></span>
-<span><span class="co">#&gt; 14 main.R            parallelNonNA     1         {      2          0     12</span></span>
-<span><span class="co">#&gt; 15 main.R                 quotient     1         {      4          2      6</span></span>
-<span><span class="co">#&gt; 16 main.R      randomValuesWithSum     1         {      3          1      5</span></span>
-<span><span class="co">#&gt; 17 main.R           recursiveNames     1         {      2          1      4</span></span>
-<span><span class="co">#&gt; 18 main.R              warnIfEmpty     1         {      1          0      2</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span>, dbg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">function_info</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_full_function_info.html">get_full_function_info</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">function_info</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="26%">
+<col width="29%">
+<col width="6%">
+<col width="10%">
+<col width="7%">
+<col width="11%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">script</th>
+<th align="left">functionName</th>
+<th align="right">n.def</th>
+<th align="left">bodyClass</th>
+<th align="right">n.args</th>
+<th align="right">n.defaults</th>
+<th align="right">n.expr</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">log.R</td>
+<td align="left">.log</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">log.R</td>
+<td align="left">.logline</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">log.R</td>
+<td align="left">.logok</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">log.R</td>
+<td align="left">.logstart</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">plot_file_distribution.R</td>
+<td align="left">arrange_file_in_depth_plots</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">assignAll</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">assignGlobally</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">assignPackageObjects</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">breakInSequence</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">callWithStringsAsFactors</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">extendLimits</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">getEvenNumbers</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">getGlobally</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">getOddNumbers</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">hsMatrixToListForm</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">hsSafeName</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">makeUnique</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">naToLastNonNa</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">parallelNonNA</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">plot_file_distribution.R</td>
+<td align="left">plot_file_distribution</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">quotient</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">randomValuesWithSum</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">main.R</td>
+<td align="left">recursiveNames</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left">warnIfEmpty</td>
+<td align="right">1</td>
+<td align="left">{</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="get_names_of_used_packages">get_names_of_used_packages()<a class="anchor" aria-label="anchor" href="#get_names_of_used_packages"></a>
 </h2>
 <p>What packages are used in the scripts?</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_names_of_used_packages.html">get_names_of_used_packages</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpMwRtoK/test/main.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<p>This function simply looks for calls to <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. It
+does not take into account functions that are called with
+<code>::</code> as the following simple <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep()</a></code> reveals:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pattern</span> <span class="op">&lt;-</span> <span class="st">"[^A-Za-z_.]([A-Za-z_.]+::[A-Za-z_.]+)[^A-Za-z_.]"</span></span>
+<span></span>
+<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="va">pattern</span>, <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">fakin</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/extractSubstring.html" class="external-link">extractSubstring</a></span><span class="op">(</span><span class="va">pattern</span>, <span class="va">text</span>, index <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "kwb.pathdict::random_paths"        "kwb.utils::noFactorDataFrame"     </span></span>
+<span><span class="co">#&gt; [3] "kwb.fakin::plot_file_distribution" "kwb.utils::assignPackageObjects"  </span></span>
+<span><span class="co">#&gt; [5] "kwb.utils::preparePdfIf"           "kwb.utils::finishAndShowPdfIf"    </span></span>
+<span><span class="co">#&gt; [7] "cowplot::plot_grid"</span></span></code></pre></div>
+<p>TODO: Use another function instead…</p>
+</div>
+<div class="section level2">
+<h2 id="get_package_function_usage">get_package_function_usage()<a class="anchor" aria-label="anchor" href="#get_package_function_usage"></a>
+</h2>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span>, dbg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">function_usage</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_package_function_usage.html">get_package_function_usage</a></span><span class="op">(</span></span>
+<span>  <span class="va">tree</span>, </span>
+<span>  package <span class="op">=</span> <span class="st">"kwb.utils"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">function_usage</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">package</th>
+<th align="left">name</th>
+<th align="right">count</th>
+<th align="right">explicit</th>
+<th align="right">implicit</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">catIf</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">finishAndShowPdfIf</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">hsRestoreAttributes</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">isEvenNumber</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">isNullOrEmpty</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">isOddNumber</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">lastElement</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">preparePdfIf</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">rbindAll</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">recursiveNames</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">stringList</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">warningDeprecated</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="get_package_usage_per_script">get_package_usage_per_script()<a class="anchor" aria-label="anchor" href="#get_package_usage_per_script"></a>
+</h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">package_usage</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_package_usage_per_script.html">get_package_usage_per_script</a></span><span class="op">(</span></span>
+<span>  <span class="va">root</span>, </span>
+<span>  packages <span class="op">=</span> <span class="st">"kwb.utils"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; 3 scripts have been parsed.</span></span>
+<span><span class="co">#&gt; Checking usage of kwb.utils ... </span></span>
+<span><span class="co">#&gt; ok. (0.03 secs)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">package_usage</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="31%">
+<col width="25%">
+<col width="7%">
+<col width="11%">
+<col width="11%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">package</th>
+<th align="left">script</th>
+<th align="left">name</th>
+<th align="right">count</th>
+<th align="right">explicit</th>
+<th align="right">implicit</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">log.R</td>
+<td align="left">catIf</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">hsRestoreAttributes</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">isEvenNumber</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">isNullOrEmpty</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">isOddNumber</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">lastElement</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">rbindAll</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">recursiveNames</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">stringList</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">main.R</td>
+<td align="left">warningDeprecated</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">kwb.utils</td>
+<td align="left">plot_file_distribution.R</td>
+<td align="left">finishAndShowPdfIf</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">kwb.utils</td>
+<td align="left">plot_file_distribution.R</td>
+<td align="left">preparePdfIf</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="get_string_constants_in_scripts">get_string_constants_in_scripts()<a class="anchor" aria-label="anchor" href="#get_string_constants_in_scripts"></a>
+</h2>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_string_constants_in_scripts.html">get_string_constants_in_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Splitting paths ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Removing the first 8 path segments ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">string_constants</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="10%">
+<col width="82%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">file_id</th>
+<th align="left">string</th>
+<th align="right">count</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">file_01</td>
+<td align="left"></td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_01</td>
+<td align="left">…</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_01</td>
+<td align="left">***</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">file_01</td>
+<td align="left">*** ok.</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left"></td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">*** The object is empty!</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">as requested but</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">_()$</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">!</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">.</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">‘assign(x, value, envir = .GlobalEnv)’</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">(returned in attribute ‘invalid’)</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">%s_%d</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">%s_1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">$</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">assignGlobally()</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">Bug in randomValuesWithSum(): The sum of generated
+values is not</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">Division by zero. Using substitute value of</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">invalid</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">parName</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">parVal</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">stringsAsFactors</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">stringsAsFactors must be TRUE or FALSE</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">The first element must not be NA</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_02</td>
+<td align="left">There are differences in parallel non-NA values</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_02</td>
+<td align="left">There are duplicate values:</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">file_03</td>
+<td align="left">lr</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">file_03</td>
+<td align="left">v</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="parse_scripts">parse_scripts()<a class="anchor" aria-label="anchor" href="#parse_scripts"></a>
+</h2>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpydcKTj/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of 3</span></span>
+<span><span class="co">#&gt;  $ log.R                   :length 4 expression(.log &lt;- function(...) {  cat("***", ...) }, .logline &lt;- function(...) {  cat("***", ..., "\n") }, .log| __truncated__ ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "n.lines")= int 50</span></span>
+<span><span class="co">#&gt;  $ main.R                  :length 18 expression(randomValuesWithSum &lt;- function(n, sumOfValues, names = seq_len(n)) {  breaks &lt;- sort(sample(sumOfValu| __truncated__ ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "n.lines")= int 575</span></span>
+<span><span class="co">#&gt;  $ plot_file_distribution.R:length 2 expression(plot_file_distribution &lt;- function(file_data, start_path, n_root_parts,  ..., to_pdf = TRUE) {  data_s| __truncated__</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "n.lines")= int 93</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="to_full_script_info">to_full_script_info()<a class="anchor" aria-label="anchor" href="#to_full_script_info"></a>
+</h2>
+<p>This function creates statistics about R scripts.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">script_statistics</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/to_full_script_info.html">to_full_script_info</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">script_statistics</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">script</th>
+<th align="left">errors</th>
+<th align="right">rows</th>
+<th align="right">expr</th>
+<th align="right">rpe</th>
+<th align="right">&lt;-</th>
+<th align="right">fun</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">log.R</td>
+<td align="left"></td>
+<td align="right">50</td>
+<td align="right">4</td>
+<td align="right">12.5</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">main.R</td>
+<td align="left"></td>
+<td align="right">575</td>
+<td align="right">18</td>
+<td align="right">31.9</td>
+<td align="right">18</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">plot_file_distribution.R</td>
+<td align="left"></td>
+<td align="right">93</td>
+<td align="right">2</td>
+<td align="right">46.5</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="walk_tree">walk_tree()<a class="anchor" aria-label="anchor" href="#walk_tree"></a>
+</h2>
+<p>This function walks along a parse tree.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/walk_tree.html">walk_tree</a></span><span class="op">(</span><span class="va">x</span>, dbg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
