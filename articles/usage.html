@@ -86,34 +86,27 @@
 <p>In order to test the functions of this package some R scripts are
 downloaded from GitHub and provided locally:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Define URLs to some example scripts</span></span>
-<span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/resolve.html" class="external-link">resolve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  kwb <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/KWB-R"</span>,</span>
-<span>  utils <span class="op">=</span> <span class="st">"&lt;kwb&gt;/kwb.utils/master/R"</span>,</span>
-<span>  log <span class="op">=</span> <span class="st">"&lt;utils&gt;/log.R"</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"&lt;utils&gt;/main.R"</span>,</span>
-<span>  fakin <span class="op">=</span> <span class="st">"&lt;kwb&gt;/kwb.fakin/master/R/plot_file_distribution.R"</span></span>
-<span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Create a temporary folder</span></span>
+<span><span class="va">root</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/tempSubdirectory.html" class="external-link">tempSubdirectory</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create a temporary folder</span></span>
-<span><span class="va">root</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/createDirectory.html" class="external-link">createDirectory</a></span><span class="op">(</span></span>
-<span>  <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/tempSubdirectory.html" class="external-link">tempSubdirectory</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span>, </span>
-<span>  dbg <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Helper function to download a text file to the temporary folder</span></span>
-<span><span class="va">download_script</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">url</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span>
-<span>    <span class="va">url</span>, </span>
-<span>    destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>    mode <span class="op">=</span> <span class="st">"wt"</span></span>
+<span><span class="co"># Function to download a script file from a KWB package on GitHub</span></span>
+<span><span class="va">download_kwb_script</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">repo</span>, <span class="va">script</span><span class="op">)</span></span>
+<span><span class="op">{</span></span>
+<span>  <span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span></span>
+<span>    <span class="st">"https://raw.githubusercontent.com/%s/master/R/%s"</span>, </span>
+<span>    <span class="va">repo</span>, <span class="va">script</span></span>
 <span>  <span class="op">)</span></span>
+<span>  <span class="va">destfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">url</span>, destfile <span class="op">=</span> <span class="va">destfile</span>, mode <span class="op">=</span> <span class="st">"wt"</span><span class="op">)</span></span>
+<span>  <span class="va">destfile</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Download three scripts to the temporary folder</span></span>
-<span><span class="fu">download_script</span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">fakin</span><span class="op">)</span></span>
-<span><span class="fu">download_script</span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
-<span><span class="fu">download_script</span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">main</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">scripts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="fu">download_kwb_script</span><span class="op">(</span><span class="st">"KWB-R/kwb.utils"</span>, <span class="st">"log.R"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">download_kwb_script</span><span class="op">(</span><span class="st">"KWB-R/kwb.utils"</span>, <span class="st">"main.R"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">download_kwb_script</span><span class="op">(</span><span class="st">"KWB-R/kwb.fakin"</span>, <span class="st">"plot_file_distribution.R"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="exported-functions">Exported functions<a class="anchor" aria-label="anchor" href="#exported-functions"></a>
@@ -140,7 +133,7 @@ following attributes:</p>
 special interest from the parse tree (see below:
 get_elements_by_type())</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">scripts</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/analyse.html">analyse</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in as.POSIXct.default(x) : </span></span>
@@ -513,9 +506,9 @@ parsed. String constants that are used in the script are returned.</p>
 <code class="sourceCode R"><span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/find_string_constants.html">find_string_constants</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Splitting paths ... ok. (0.00 secs) </span></span>
 <span><span class="co">#&gt; Removing the first 8 path segments ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">string_constants</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -794,7 +787,7 @@ values is not</td>
 tree.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parse an R script file (here, a file from kwb.utils)</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">scripts</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># For each "type" of code segment, extract all occurrences</span></span>
 <span><span class="va">elements</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_elements_by_type.html">get_elements_by_type</a></span><span class="op">(</span><span class="va">x</span>, result <span class="op">=</span> <span class="va">result</span><span class="op">)</span></span>
@@ -1086,9 +1079,9 @@ scripts:</p>
 <p>What packages are used in the scripts?</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_names_of_used_packages.html">get_names_of_used_packages</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>This function simply looks for calls to <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. It
 does not take into account functions that are called with
@@ -1096,7 +1089,7 @@ does not take into account functions that are called with
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pattern</span> <span class="op">&lt;-</span> <span class="st">"[^A-Za-z_.]([A-Za-z_.]+::[A-Za-z_.]+)[^A-Za-z_.]"</span></span>
 <span></span>
-<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="va">pattern</span>, <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">fakin</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="va">pattern</span>, <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">scripts</span><span class="op">[</span><span class="fl">3L</span><span class="op">]</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/extractSubstring.html" class="external-link">extractSubstring</a></span><span class="op">(</span><span class="va">pattern</span>, <span class="va">text</span>, index <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "kwb.pathdict::random_paths"        "kwb.utils::noFactorDataFrame"     </span></span>
@@ -1220,12 +1213,12 @@ does not take into account functions that are called with
 <span>  <span class="va">root</span>, </span>
 <span>  packages <span class="op">=</span> <span class="st">"kwb.utils"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span><span class="co">#&gt; 3 scripts have been parsed.</span></span>
 <span><span class="co">#&gt; Checking usage of kwb.utils ... </span></span>
-<span><span class="co">#&gt; ok. (0.03 secs)</span></span></code></pre></div>
+<span><span class="co">#&gt; ok. (0.16 secs)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">package_usage</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -1352,9 +1345,9 @@ does not take into account functions that are called with
 <code class="sourceCode R"><span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_string_constants_in_scripts.html">get_string_constants_in_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Splitting paths ... ok. (0.00 secs) </span></span>
 <span><span class="co">#&gt; Removing the first 8 path segments ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span></code></pre></div>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">string_constants</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -1518,9 +1511,9 @@ values is not</td>
 </h2>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpk2A8Sd/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpae5QpR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 3</span></span>
@@ -1585,7 +1578,7 @@ values is not</td>
 </h2>
 <p>This function walks along a parse tree.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">urls</span><span class="op">$</span><span class="va">log</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span><span class="va">scripts</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/walk_tree.html">walk_tree</a></span><span class="op">(</span><span class="va">x</span>, dbg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
