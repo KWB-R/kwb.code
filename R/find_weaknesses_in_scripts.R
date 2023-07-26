@@ -70,7 +70,7 @@ find_weaknesses_in_scripts <- function(
   is_relevant <- 
     nchar(as.character(strings$expression)) >= min_duplicate_string_length & 
     strings$frequency >= min_duplicate_frequency
-
+  
   if (any(is_relevant)) {
     results <- c(results, list(strings[is_relevant, ]))
   }
@@ -85,9 +85,9 @@ find_code_snippets <- function(
 {
   matches <- to_matches_function(check_function, type = type)
   
-  result <- summarise_extracted_matches(
-    extract_from_parse_tree(x, matches = matches)
-  )
+  result <- x %>%
+    extract_from_parse_tree(matches = matches) %>%
+    summarise_extracted_matches()
   
   if (nrow(result) == 0L) {
     return(NULL)
@@ -105,21 +105,23 @@ to_matches_function <- function(check_function, type = "self", max_chars = 50L)
       return(FALSE)
     }
     
-    structure(
-      TRUE, 
-      name = kwb.utils::shorten(max_chars = max_chars, kwb.utils::collapsed(
-        if (identical(type, "self")) {
-          deparse(x)
-        } else if (identical(type, "element_2")) {
-          deparse(x[[2L]])
-        } else if (identical(type, "parent")) {
-          deparse(parent)
-        } else {
-          stop("unknown type: ", type)
-        }
-      ))
-    )
+    object <- if (identical(type, "self")) {
+      x
+    } else if (identical(type, "element_2")) {
+      x[[2L]]
+    } else if (identical(type, "parent")) {
+      parent
+    } else {
+      stop("unknown type: ", type)
+    }
+    
+    name <- deparse(object) %>%
+      kwb.utils::collapsed() %>%
+      kwb.utils::shorten(max_chars)
+    
+    structure(TRUE, name = name)
   }
+  
 }
 
 # is_logical_constant_false ----------------------------------------------------
@@ -145,7 +147,7 @@ is_logical_constant <- function(
   if (!is.symbol(x)) {
     return(FALSE)
   }
-
+  
   deparse(x) %in% deparsed_logical_values(type, use_false, use_true)
 }
 
@@ -233,7 +235,7 @@ is_comparison_with_logical <- function(x, use_false = TRUE, use_true = TRUE)
   if (!is.call(x)) {
     return(FALSE)
   }
-
+  
   operator <- deparse(x[[1]])
   
   operator %in% c("==", "!=") && (
