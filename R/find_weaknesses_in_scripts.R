@@ -239,22 +239,20 @@ is_comparison_with_logical <- function(x, use_false = TRUE, use_true = TRUE)
   operator <- deparse(x[[1]])
   
   operator %in% c("==", "!=") && (
-    is_logical_constant(x[[2]], type = "either", use_false, use_true) ||
-      is_logical_constant(x[[3]], type = "either", use_false, use_true)
+    is_logical_constant(x[[2]], type = "either", logicals) ||
+      is_logical_constant(x[[3]], type = "either", logicals)
   )
 }
 
 # summarise_extracted_matches --------------------------------------------------
 summarise_extracted_matches <- function(x)
 {
-  result <- kwb.utils::excludeNULL(x, dbg = FALSE)
-  
-  result <- lapply(result, function(xx) {
-    stats::setNames(
-      as.data.frame(table(xx)),
-      c("expression", "frequency")
-    )
-  })
-  
-  dplyr::bind_rows(result, .id = "file")
+  x %>%
+    kwb.utils::excludeNULL(dbg = FALSE) %>%
+    lapply(function(y) {
+      table(y) %>%
+        as.data.frame() %>%
+        stats::setNames(c("expression", "frequency"))
+    }) %>%
+    dplyr::bind_rows(.id = "file")
 }
