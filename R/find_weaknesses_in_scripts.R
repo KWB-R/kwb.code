@@ -127,39 +127,33 @@ to_matches_function <- function(check_function, type = "self", max_chars = 50L)
 # is_logical_constant_false ----------------------------------------------------
 is_logical_constant_false <- function(x, type = "short")
 {
-  is_logical_constant(x, type, use_true = FALSE)
+  is_logical_constant(x, type, logicals = FALSE)
 }
 
 # is_logical_constant_true -----------------------------------------------------
 is_logical_constant_true <- function(x, type = "short")
 {
-  is_logical_constant(x, type, use_false = FALSE)
+  is_logical_constant(x, type, logicals = TRUE)
 }
 
 # is_logical_constant ----------------------------------------------------------
-is_logical_constant <- function(
-    x, 
-    type = "short", 
-    use_false = TRUE, 
-    use_true = TRUE
-)
+is_logical_constant <- function(x, type = "short", logicals = c(FALSE, TRUE))
 {
   if (!is.symbol(x)) {
     return(FALSE)
   }
-  
-  deparse(x) %in% deparsed_logical_values(type, use_false, use_true)
+ 
+  deparse(x) %in% deparsed_logical_values(type, logicals)
 }
 
 # deparsed_logical_values ------------------------------------------------------
 deparsed_logical_values <- function(
     type = c("short", "long", "either")[3L],
-    use_false = TRUE,
-    use_true = TRUE
+    logicals = c(FALSE, TRUE)
 )
 {
   values <- c("F", "T", "FALSE", "TRUE")
-  use_false_true <- c(use_false, use_true)
+  use_false_true <- c(FALSE %in% logicals, TRUE %in% logicals)
   
   if (type == "short") {
     values[1:2][use_false_true]
@@ -220,17 +214,17 @@ is_bad_function_name <- function(x)
 # is_comparison_with_false -----------------------------------------------------
 is_comparison_with_false <- function(x)
 {
-  is_comparison_with_logical(x, use_true = FALSE)
+  is_comparison_with_logical(x, logicals = FALSE)
 }
 
 # is_comparison_with_true ------------------------------------------------------
 is_comparison_with_true <- function(x)
 {
-  is_comparison_with_logical(x, use_false = FALSE)
+  is_comparison_with_logical(x, logicals = TRUE)
 }
 
 # is_comparison_with_logical ---------------------------------------------------
-is_comparison_with_logical <- function(x, use_false = TRUE, use_true = TRUE)
+is_comparison_with_logical <- function(x, logicals = c(FALSE, TRUE))
 {
   if (!is.call(x)) {
     return(FALSE)
