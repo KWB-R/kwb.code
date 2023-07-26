@@ -34,6 +34,7 @@ Imports:
     dplyr,
     kwb.file,
     kwb.utils,
+    magrittr,
     stringr
 Suggests: 
     covr,
