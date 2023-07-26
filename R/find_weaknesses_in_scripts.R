@@ -26,6 +26,7 @@ find_weaknesses_in_scripts <- function(
   stopifnot(all(is_expression | is_error))
   
   # Remove scripts that could not be parsed by setting elements to NULL first
+  # and excluding NULL second (just to use its reporting)
   x[is_error] <- lapply(which(is_error), function(i) NULL)
   x <- kwb.utils::excludeNULL(x)
   
