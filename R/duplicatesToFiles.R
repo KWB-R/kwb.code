@@ -7,17 +7,21 @@ duplicatesToFiles <- function
 (
   trees, fun_duplicates, function_name, target_root = tempdir(), dbg = TRUE,
   write.all = FALSE
-) {
+)
+{
+  function_names <- selectColumns(fun_duplicates, "functionName")
+  
+  scripts <- fun_duplicates[function_names == function_name, ] %>%
+    selectColumns("script") %>%
+    as.character()
 
-  selected <- selectColumns(fun_duplicates, "functionName") == function_name
-
-  scripts <- as.character(selectColumns(fun_duplicates[selected, ], "script"))
-
-  function_defs <- lapply(scripts, function(script) {
-    extract_function_definition(selectElements(trees, script), function_name)
-  })
-
-  names(function_defs) <- scripts
+  function_defs <- scripts %>%
+    lapply(function(script) {
+      trees %>% 
+        selectElements(script) %>%
+        extract_function_definition(function_name)
+    }) %>%
+    stats::setNames(scripts)
 
   target_dir <- file.path(target_root, "clean", function_name)
   target_dir <- createDirectory(target_dir, dbg = FALSE)
