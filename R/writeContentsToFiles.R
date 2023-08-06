@@ -1,51 +1,55 @@
 # writeContentsToLessFiles -----------------------------------------------------
 writeContentsToLessFiles <- function(
-  contents, targetDir, functionName, dbg = TRUE
+    contents, 
+    targetDir, 
+    functionName, 
+    dbg = TRUE
+)
+{
+  writeContentsToFiles(contents, targetDir, functionName, dbg, less = TRUE)
+}
+
+# writeContentsToFiles ---------------------------------------------------------
+writeContentsToFiles <- function(
+    contents, 
+    targetDir, 
+    functionName, 
+    dbg = TRUE, 
+    less = FALSE
 )
 {
   # Put each content into one line (a vector of length one)
-  contents <- sapply(contents, paste, collapse = "\n")
-
-  # Find the unique contents
-  unique_contents <- unique(contents)
-
-  # Index vector to walk along unique_contents
-  indices <- seq_along(unique_contents)
+  all_contents <- sapply(contents, paste, collapse = "\n")
   
-  # Target file names
-  files <- targetFile(targetDir, paste0(functionName, "__v"), i)
+  # Continue either with the unique contents or with all contents
+  contents <- if (less) {
+    unique(all_contents)
+  } else {
+    all_contents
+  }
   
-  for (i in indices) {
+  # Create one file per content
+  lapply(seq_along(contents), function(i) {
     
     # Select the corresponding content
-    content <- unique_contents[i]
+    content <- contents[i]
     
     # Scripts where the content was found
-    scripts <- names(which(contents == content))
-
+    scripts <- if (less) {
+      names(which(all_contents == content)) 
+    } else {
+      names(contents)[i]
+    } 
+    
     # Write the content to the target file
     writeContentToFile(
       content = content, 
-      file = files[i], 
-      headerLines = found_in_scripts_header(scripts), 
+      file = file.path(targetDir, sprintf("%s__%d.txt", functionName, i)),
+      headerLines = paste("# found in", scripts), 
       dbg = dbg
     )
-  }
-  
-  # Return the paths to the files written
-  files
-}
-
-# targetFile -------------------------------------------------------------------
-targetFile <- function(targetDir, functionName, i)
-{
-  file.path(targetDir, sprintf("%s_%d.txt", functionName, i))
-}
-
-# found_in_scripts_header ------------------------------------------------------
-found_in_scripts_header <- function(scripts)
-{
-  paste("# found in", scripts)  
+    
+  })
 }
 
 # writeContentToFile -----------------------------------------------------------
@@ -56,19 +60,7 @@ writeContentToFile <- function(content, file, headerLines, dbg = TRUE)
     paste("Writing function to", file), dbg = dbg,
     writeLines(c(headerLines, content), file)
   )
-}
-
-# writeContentsToFiles ---------------------------------------------------------
-writeContentsToFiles <- function(contents, targetDir, functionName, dbg = TRUE)
-{
-  content_names <- names(contents)
-
-  lapply(seq_along(contents), function(i) {
-    writeContentToFile(
-      content = contents[[i]], 
-      file = targetFile(targetDir, functionName, i), 
-      headerLines = found_in_scripts_header(scripts = content_names[i]), 
-      dbg = dbg
-    )
-  })
+  
+  # Return the path to the file
+  file
 }
