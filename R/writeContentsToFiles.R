@@ -3,11 +3,14 @@ writeContentsToLessFiles <- function(
   contents, targetDir, functionName, dbg = TRUE
 )
 {
-  oneLineContents <- sapply(contents, paste, collapse = "\n")
-  uniqueContents <- unique(oneLineContents)
+  # Put each content into one line (a vector of length one)
+  contents <- sapply(contents, paste, collapse = "\n")
 
-  # Index vector to walk along uniqueContents
-  indices <- seq_along(uniqueContents)
+  # Find the unique contents
+  unique_contents <- unique(contents)
+
+  # Index vector to walk along unique_contents
+  indices <- seq_along(unique_contents)
   
   # Target file names
   files <- targetFile(targetDir, paste0(functionName, "__v"), i)
@@ -15,14 +18,18 @@ writeContentsToLessFiles <- function(
   for (i in indices) {
     
     # Select the corresponding content
-    content <- uniqueContents[i]
+    content <- unique_contents[i]
     
-    # Header lines naming the scripts where the content was found
-    scripts <- names(which(oneLineContents == content))
-    header <- found_in_scripts_header(scripts)
+    # Scripts where the content was found
+    scripts <- names(which(contents == content))
 
     # Write the content to the target file
-    writeContentToFile(content, files[i], header, dbg = dbg)
+    writeContentToFile(
+      content = content, 
+      file = files[i], 
+      headerLines = found_in_scripts_header(scripts), 
+      dbg = dbg
+    )
   }
   
   # Return the paths to the files written
@@ -56,14 +63,12 @@ writeContentsToFiles <- function(contents, targetDir, functionName, dbg = TRUE)
 {
   content_names <- names(contents)
 
-  # Target file names
-  files <- targetFile(targetDir, functionName, i)
-  
-  for (i in seq_along(contents)) {
-
-    # Header lines naming the script where the content was found
-    header <- found_in_scripts_header(scripts = content_names[i])
-
-    writeContentToFile(contents[[i]], files[i], header, dbg = dbg)
-  }
+  lapply(seq_along(contents), function(i) {
+    writeContentToFile(
+      content = contents[[i]], 
+      file = targetFile(targetDir, functionName, i), 
+      headerLines = found_in_scripts_header(scripts = content_names[i]), 
+      dbg = dbg
+    )
+  })
 }
