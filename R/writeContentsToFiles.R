@@ -29,7 +29,7 @@ writeContentsToFiles <- function(
   }
   
   # Create one file per content
-  lapply(seq_along(contents), function(i) {
+  unlist(lapply(seq_along(contents), function(i) {
     
     # Select the corresponding content
     content <- contents[i]
@@ -41,15 +41,21 @@ writeContentsToFiles <- function(
       names(contents)[i]
     } 
     
-    # Write the content to the target file
+    # Compose base file name
+    base_name <- sprintf(
+      "%s__%s%d.txt", 
+      functionName, ifelse(less, "unique-", ""), i
+    )
+  
+    # Write the content to a text file in the target directory
     writeContentToFile(
       content = content, 
-      file = file.path(targetDir, sprintf("%s__%d.txt", functionName, i)),
+      file = file.path(targetDir, base_name),
       headerLines = paste("# found in", scripts), 
       dbg = dbg
     )
     
-  })
+  }))
 }
 
 # writeContentToFile -----------------------------------------------------------
