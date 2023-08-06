@@ -23,7 +23,8 @@ duplicatesToFiles <- function
   }
   
   function_names <- selectColumns(fun_duplicates, "functionName")
-  
+
+  # Call this function for each function name if no function name is given  
   if (is.null(function_name)) {
     
     message("No function name given.")
@@ -40,19 +41,19 @@ duplicatesToFiles <- function
       )
     })
   }
-  
+
+  # Script files that contain a function <function_name>  
   scripts <- fun_duplicates[function_names == function_name, ] %>%
     selectColumns("script") %>%
     as.character()
 
-  function_defs <- scripts %>%
-    lapply(function(script) {
-      trees %>% 
-        selectElements(script) %>%
-        extract_function_definition(function_name)
-    }) %>%
-    stats::setNames(scripts)
-
+  # From each script, extract the definition of function <function_name>
+  function_defs <- lapply(stats::setNames(nm = scripts), function(script) {
+    trees %>% 
+      selectElements(script) %>%
+      extract_function_definition(function_name)
+  })
+  
   target_dir <- file.path(target_root, "clean", function_name)
   target_dir <- createDirectory(target_dir, dbg = FALSE)
 
@@ -95,9 +96,12 @@ extract_function_definition <- function(tree, function_name) {
   n_defs <- length(index)
 
   if (n_defs == 0L) {
-    stop("No such function: '", function_name, "' defined in the given tree")
+    kwb.utils::stopFormatted(
+      "No such function: '%s' defined in the given tree", 
+      function_name
+    )
   }
-
+  
   if (n_defs > 1L) {
     warning(
       "The function '", function_name, "' is defined multiple times in ",
