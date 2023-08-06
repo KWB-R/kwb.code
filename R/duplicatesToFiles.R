@@ -14,9 +14,7 @@ duplicatesToFiles <- function
 )
 {
   if (is.null(fun_duplicates)) {
-    function_info <- get_full_function_info(trees)
-    n_definitions <- selectColumns(function_info, "n.def")
-    fun_duplicates <- function_info[n_definitions > 1L, ]
+    fun_duplicates <- get_info_on_duplicated_function_names(trees)
   }
   
   if (nrow(fun_duplicates) == 0L) {
@@ -75,6 +73,14 @@ duplicatesToFiles <- function
   }
 
   target_dir
+}
+
+# get_info_on_duplicated_function_names ----------------------------------------
+get_info_on_duplicated_function_names <- function(trees)
+{
+  function_info <- get_full_function_info(trees)
+  n_definitions <- selectColumns(function_info, "n.def")
+  function_info[n_definitions > 1L, ]
 }
 
 # extract_function_definition --------------------------------------------------
