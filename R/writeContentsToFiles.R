@@ -4,32 +4,28 @@ writeContentsToLessFiles <- function(
 )
 {
   oneLineContents <- sapply(contents, paste, collapse = "\n")
+  uniqueContents <- unique(oneLineContents)
 
-  i <- 0L
-
-  while (length(oneLineContents)) {
-
-    i <- i + 1L
-
-    # Get the first content out of the list
-    content <- oneLineContents[1L]
-
-    # Select this and identical contents
-    selected <- (oneLineContents == content)
-
-    # Write this content
-    file <- targetFile(targetDir, paste0(functionName, "__v"), i)
+  # Index vector to walk along uniqueContents
+  indices <- seq_along(uniqueContents)
+  
+  # Target file names
+  files <- targetFile(targetDir, paste0(functionName, "__v"), i)
+  
+  for (i in indices) {
     
-    headerLines <- paste("# found in", names(oneLineContents[selected]))
+    # Select the corresponding content
+    content <- uniqueContents[i]
     
-    writeContentToFile(content, file, headerLines, dbg = dbg)
-
-    # Remove this and the identical contents
-    oneLineContents <- oneLineContents[! selected]
+    # Header lines naming the scripts where the content was found
+    header <- paste("# found in", names(which(oneLineContents == content)))
+    
+    # Write the content to the target file
+    writeContentToFile(content, files[i], header, dbg = dbg)
   }
-
-  # Return the number of files written
-  i
+  
+  # Return the paths to the files written
+  files
 }
 
 # targetFile -------------------------------------------------------------------
@@ -55,10 +51,10 @@ writeContentsToFiles <- function(contents, targetDir, functionName, dbg = TRUE)
 
   for (i in seq_along(contents)) {
 
-    headerLines <- paste("# found in", content_names[i])
+    header <- paste("# found in", content_names[i])
 
     file <- targetFile(targetDir, functionName, i)
 
-    writeContentToFile(contents[[i]], file, headerLines, dbg = dbg)
+    writeContentToFile(contents[[i]], file, header, dbg = dbg)
   }
 }
