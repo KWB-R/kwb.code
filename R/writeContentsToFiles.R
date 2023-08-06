@@ -18,8 +18,9 @@ writeContentsToLessFiles <- function(
     content <- uniqueContents[i]
     
     # Header lines naming the scripts where the content was found
-    header <- paste("# found in", names(which(oneLineContents == content)))
-    
+    scripts <- names(which(oneLineContents == content))
+    header <- found_in_scripts_header(scripts)
+
     # Write the content to the target file
     writeContentToFile(content, files[i], header, dbg = dbg)
   }
@@ -32,6 +33,12 @@ writeContentsToLessFiles <- function(
 targetFile <- function(targetDir, functionName, i)
 {
   file.path(targetDir, sprintf("%s_%d.txt", functionName, i))
+}
+
+# found_in_scripts_header ------------------------------------------------------
+found_in_scripts_header <- function(scripts)
+{
+  paste("# found in", scripts)  
 }
 
 # writeContentToFile -----------------------------------------------------------
@@ -49,12 +56,14 @@ writeContentsToFiles <- function(contents, targetDir, functionName, dbg = TRUE)
 {
   content_names <- names(contents)
 
+  # Target file names
+  files <- targetFile(targetDir, functionName, i)
+  
   for (i in seq_along(contents)) {
 
-    header <- paste("# found in", content_names[i])
+    # Header lines naming the script where the content was found
+    header <- found_in_scripts_header(scripts = content_names[i])
 
-    file <- targetFile(targetDir, functionName, i)
-
-    writeContentToFile(contents[[i]], file, header, dbg = dbg)
+    writeContentToFile(contents[[i]], files[i], header, dbg = dbg)
   }
 }
