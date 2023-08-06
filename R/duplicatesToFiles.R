@@ -22,7 +22,7 @@ duplicatesToFiles <- function
     return()
   }
   
-  function_names <- selectColumns(fun_duplicates, "functionName")
+  function_names <- kwb.utils::selectColumns(fun_duplicates, "functionName")
 
   # Call this function for each function name if no function name is given  
   if (is.null(function_name)) {
@@ -50,12 +50,12 @@ duplicatesToFiles <- function
   # From each script, extract the definition of function <function_name>
   function_defs <- lapply(stats::setNames(nm = scripts), function(script) {
     trees %>% 
-      selectElements(script) %>%
+      kwb.utils::selectElements(script) %>%
       extract_function_definition(function_name)
   })
   
   target_dir <- file.path(target_root, "clean", function_name)
-  target_dir <- createDirectory(target_dir, dbg = FALSE)
+  target_dir <- kwb.utils::createDirectory(target_dir, dbg = FALSE)
 
   contents <- lapply(function_defs, function(x) deparse(x[[3L]]))
 
@@ -65,15 +65,15 @@ duplicatesToFiles <- function
   }
 
   # Write one file per unique function definition
-  n_files <- writeContentsToLessFiles(
+  files <- writeContentsToLessFiles(
     contents, target_dir, function_name, dbg = dbg
   )
 
-  if (n_files != length(contents)) {
+  if (length(files) != length(contents)) {
     message("There are identical definitions for ", function_name)
   }
 
-  target_dir
+  files
 }
 
 # get_info_on_duplicated_function_names ----------------------------------------
