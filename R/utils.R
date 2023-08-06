@@ -14,6 +14,12 @@ arg_names <- function(x)
   names(args_list[-length(args_list)])
 }
 
+# cat_formatted ----------------------------------------------------------------
+cat_formatted <- function(fmt, ...)
+{
+  cat(sprintf(fmt, ...))
+}
+
 # filter_for -------------------------------------------------------------------
 filter_for <- function(x, FUN.filter, ...)
 {
