@@ -12,7 +12,9 @@ type_info <- function(x, as.character = FALSE)
     class = class(x), 
     length = length(x),
     text = shorten(paste0("[", seq_along(text), "]", text, collapse = "")),
-    is = if (length(x) == 1L) is_what(x)
+    is = if (length(x) == 1L) {
+      suppressWarnings(is_what(x, silent = TRUE))
+    }
   )
   
   info <- c(info, list(
