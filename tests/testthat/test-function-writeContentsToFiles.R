@@ -8,5 +8,5 @@ test_that("writeContentsToFiles() works", {
   
   capture.output(f(list("a", "b"), target_dir, "f"))
   
-  expect_true(all(c("f_1.txt", "f_2.txt") %in% dir(target_dir)))
+  expect_true(all(c("f__1.txt", "f__2.txt") %in% dir(target_dir)))
 })
