@@ -5,11 +5,43 @@
 #' @importFrom kwb.utils selectElements
 duplicatesToFiles <- function
 (
-  trees, fun_duplicates, function_name, target_root = tempdir(), dbg = TRUE,
+  trees, 
+  fun_duplicates = NULL, 
+  function_name = NULL, 
+  target_root = tempdir(), 
+  dbg = TRUE,
   write.all = FALSE
 )
 {
+  if (is.null(fun_duplicates)) {
+    function_info <- get_full_function_info(trees)
+    n_definitions <- selectColumns(function_info, "n.def")
+    fun_duplicates <- function_info[n_definitions > 1L, ]
+  }
+  
+  if (nrow(fun_duplicates) == 0L) {
+    message("No duplications given or no duplications found.")
+    return()
+  }
+  
   function_names <- selectColumns(fun_duplicates, "functionName")
+  
+  if (is.null(function_name)) {
+    
+    message("No function name given.")
+    
+    lapply(unique(function_names), function(function_name) {
+      #function_name <- unique(function_names)[1L]
+      kwb.utils::catAndRun(
+        sprintf(
+          "Calling duplicatesToFiles(..., function_name = \"%s\")", 
+          function_name
+        ), 
+        duplicatesToFiles(trees, fun_duplicates, function_name),
+        newLine = 3L
+      )
+    })
+  }
   
   scripts <- fun_duplicates[function_names == function_name, ] %>%
     selectColumns("script") %>%
