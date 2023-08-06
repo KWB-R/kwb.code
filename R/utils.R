@@ -32,18 +32,19 @@ filter_for <- function(x, FUN.filter, ...)
 is_what <- function(
   x, 
   exclude = c(
-    "is.na.numeric_version", 
-    "is.na.POSIXlt", 
-    "is.single",
-    # the following complain: 
-    #   nicht implementierte Standardmethode für Typ 'expression'
-    "is.finite", 
-    "is.infinite",
-    "is.nan",
-    # the following complain:
-    #   Argument zu 'which' ist nicht boolesch
-    "is.na",
-    "is.na.data.frame" # returns a matrix
+    # "is.na.numeric_version", 
+    # "is.na.POSIXlt", 
+    # "is.na.POSIXct",
+    # "is.single",
+    # # the following complain: 
+    # #   nicht implementierte Standardmethode für Typ 'expression'
+    # "is.finite", 
+    # "is.infinite",
+    # "is.nan",
+    # # the following complain:
+    # #   Argument zu 'which' ist nicht boolesch
+    # "is.na",
+    # "is.na.data.frame" # returns a matrix
   ),
   silent = FALSE
 )
@@ -54,12 +55,11 @@ is_what <- function(
   base_functions <- ls(getNamespace("base"))
   
   # Find is.* functions
-  pattern_is <- "^is\\."
-  is_functions <- grep(pattern_is, base_functions, value = TRUE)
-  
+  is_functions <- base_functions[startsWith(base_functions, "is.")]
+
   # Which functions are not applicable, i.e. have not exactly one argument "x"
   is_applicable <- sapply(lapply(is_functions, arg_names), identical, "x")
-  non_applicable <- is_functions[which(! is_applicable)]
+  non_applicable <- is_functions[which(!is_applicable)]
   
   # Exclude non-applicable functions and further functions given in "exclude"
   is_functions <- setdiff(is_functions, c(non_applicable, exclude))
@@ -68,14 +68,18 @@ is_what <- function(
   is_results <- sapply(is_functions, function(f) {
     
     result <- try(do.call(f, list(x), quote = TRUE), silent = silent)
+
+    cat_error <- function(what) {
+      cat_formatted("%s(x) returned %s. Returning FALSE.\n", f, what)
+    } 
     
     if (inherits(result, "try-error")) {
-      cat(sprintf("%s(x) returned an error. Returning FALSE.\n", f))
+      cat_error("an error")
       return(FALSE)
     }
     
-    if (! isTRUE(result) && ! isFALSE(result)) {
-      cat(sprintf("%s(x) returned neither TRUE nor FALSE. Returning FALSE.\n", f))
+    if (!isTRUE(result) && !isFALSE(result)) {
+      cat_error("neither TRUE nor FALSE")
       return(FALSE)
     }
     
@@ -83,7 +87,7 @@ is_what <- function(
   })
   
   # Return the names (without "is.") of functions that returned TRUE  
-  gsub(pattern_is, "", names(which(is_results)))
+  gsub("^is.", "", names(which(is_results)))
 }
 
 # vector_to_count_table --------------------------------------------------------
