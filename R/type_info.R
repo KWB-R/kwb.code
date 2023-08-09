@@ -33,13 +33,18 @@ type_info <- function(x, as.character = FALSE)
 #' @importFrom kwb.utils commaCollapsed
 info_to_text <- function(info)
 {
+  collapse <- function(element) {
+    kwb.utils::selectElements(info, element) %>% 
+      kwb.utils::commaCollapsed()
+  }
+  
   sprintf(
     paste0(#"type|mode|class|length|is: ", 
       "%s|%s|%s|%d|%s"), 
-    info$type,
-    kwb.utils::commaCollapsed(info$mode),
-    kwb.utils::commaCollapsed(info$class), 
-    info$length,
-    kwb.utils::commaCollapsed(info$is)
+    collapse("type"),
+    collapse("mode"),
+    collapse("class"), 
+    collapse("length"),
+    collapse("is")
   )
 }
