@@ -6,7 +6,6 @@
 #'   extracted
 #' @return named list of expressions. The names of the list elements represent 
 #'   the names of the functions that are defined by the expressions in the list.
-#' @return
 #' @export
 get_function_assignments <- function(file)
 {
