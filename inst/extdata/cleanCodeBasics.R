@@ -2,11 +2,7 @@
 config <- list(checks = list(
   seq_1_n = list(
     check = function(x) {
-      if (!is.call(x)) return(FALSE)
-      #str(as.list(x))
-      #substr(deparse(x)[1L], 1L, 2L) == "1:"
-      identical(x[[1]], as.name(":")) &&
-        identical(x[[2]], 1) &&
+      kwb.code:::is_colon_seq_1_to_any(x) &&
         (is.name(x[[3]]) || is.call(x[[3]]))
     },
     report = function(x) {
@@ -66,10 +62,12 @@ config <- list(checks = list(
 if (FALSE)
 {
   #files <- dir_r_files("R")
-  files <- dir_r_files("~/github-repos/K/kwb.misa")
+  files <- dir_r_files("C:/development/github-repos/K/kwb.misa")
   files <- dir_r_files("~/R-Development/RScripts")
 
   cat("\n     ")
+  
+  files <- files[1]
   
   # Apply the configuration for all files
   for (i in seq_along(files)) {

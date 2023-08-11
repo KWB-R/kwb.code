@@ -1,4 +1,5 @@
 # parse_scripts ----------------------------------------------------------------
+
 #' Parse all given R scripts into a tree structure
 #'
 #' @param root root directory to which the relative paths given in
@@ -56,76 +57,11 @@ parse_scripts <- function
     content <- catAndRun(
       paste("Reading", file), dbg = dbg, readLines(file, warn = FALSE)
     )
-
+    
     expressions <- try(parse(text = content))
     
     structure(expressions, n.lines = length(content))
   })
-
+  
   stats::setNames(trees, scripts)
-}
-
-# get_full_function_info -------------------------------------------------------
-#'
-#' Get information on function definitions in parsed R scripts
-#'
-#' @param trees list of R script parse trees as provided by
-#'   \code{\link{parse_scripts}}
-#'
-#' @importFrom kwb.utils rbindAll
-#' @importFrom kwb.utils moveColumnsToFront
-#'
-#' @export
-#'
-#' @seealso \code{\link{parse_scripts}}
-get_full_function_info <- function(trees)
-{
-  infos <- lapply(trees, function(tree) {
-    rbindAll(lapply(get_functions(tree), get_function_info))
-  })
-
-  functionInfo <- rbindAll(infos, nameColumn = "script")
-
-  count <- multi_defined_functions(functionInfo)
-
-  functionInfo <- merge(functionInfo, count, by = "functionName")
-
-  moveColumnsToFront(functionInfo, c("script", "functionName", "n.def"))
-}
-
-# multi_defined_functions ------------------------------------------------------
-multi_defined_functions <- function(functionInfo)
-{
-  count <- aggregate(
-    n.def ~ functionName,
-    cbind(n.def = seq_len(nrow(functionInfo)), functionInfo),
-    length
-  )
-
-  count[order(count$n, decreasing = TRUE), ]
-}
-
-# merge_function_info ----------------------------------------------------------
-merge_function_info <- function(scriptInfo, functionInfo)
-{
-  funExpressions <- expressions_per_function(functionInfo)
-
-  merge(
-    scriptInfo,
-    funExpressions[, c("script", "epf")],
-    by = "script",
-    all.x = TRUE
-  )
-}
-
-# filter_scripts ---------------------------------------------------------------
-#' @importFrom kwb.utils matchesCriteria
-#' @importFrom kwb.utils removeEmptyColumns
-filter_scripts <- function(scriptInfo, fun.min = 5, epf.min = 10)
-{
-  criteria <- c(paste("fun >=", fun.min), paste("epf >=", epf.min))
-
-  scriptInfo <- scriptInfo[matchesCriteria(scriptInfo, criteria), ]
-
-  removeEmptyColumns(scriptInfo)
 }
