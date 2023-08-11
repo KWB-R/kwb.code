@@ -75,5 +75,5 @@ split_index_path <- function(x)
 # @examples is_index_path(c("1", "/1", "/11", "1/2/3"))
 is_index_path <- function(x)
 {
-  grepl("^/?([0-9]+/?)+$", x)
+  grepl("^/?([0-9]+/?)*$", x)
 }
