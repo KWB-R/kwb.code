@@ -25,28 +25,55 @@
 get_elements_by_type <- function(x, result = NULL, dbg = TRUE)
 {
   if (is.null(result)) {
-    kwb.utils::catAndRun(dbg = dbg, "Analysing the parse tree", {
-      result <- analyse(x)
-    })
+    kwb.utils::catAndRun(
+      "Analysing the parse tree", 
+      dbg = dbg, 
+      expr = {
+        result <- analyse(x)
+      }
+    )
   }
   
   type_paths <- get_paths_to_types(result)
   
-  code_parts <- lapply(type_paths, extract_by_path, x = x)
-  
-  stats::setNames(code_parts, names(type_paths))
+  type_paths %>%
+    lapply(extract_by_path, x = x) %>%
+    stats::setNames(names(type_paths))
 }
 
 # extract_by_path --------------------------------------------------------------
 extract_by_path <- function(x, paths)
 {
-  # Remove leading slash from the type path
-  clean_paths <- gsub("^/", "", paths)
+  stopifnot(is.list(x))
   
-  # Use the segments of the type path as (recursive) list indices
-  lapply(strsplit(clean_paths, "/"), function(indices) {
-    if (length(indices)) {
-      x[[as.integer(indices)]]
-    }
-  })
+  paths %>%
+    
+    # Split the path strings into vectors of integer
+    split_index_path() %>%
+    
+    # Use the segments of the type path as (recursive) list indices
+    lapply(function(indices) {
+      if (length(indices)) {
+        x[[indices]]
+      }
+    })
+}
+
+# split_index_path -------------------------------------------------------------
+split_index_path <- function(x)
+{
+  stopifnot(is.character(x))
+  stopifnot(all(is_index_path(x)))
+  
+  x %>%
+    remove_first_and_last_slash() %>%
+    strsplit("/") %>%
+    lapply(as.integer)
+}
+
+# is_index_path ----------------------------------------------------------------
+# @examples is_index_path(c("1", "/1", "/11", "1/2/3"))
+is_index_path <- function(x)
+{
+  grepl("^/?([0-9]+/?)+$", x)
 }

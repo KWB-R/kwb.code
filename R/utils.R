@@ -90,6 +90,12 @@ is_what <- function(
   gsub("^is.", "", names(which(is_results)))
 }
 
+# remove_first_and_last_slash --------------------------------------------------
+remove_first_and_last_slash <- function(x)
+{
+  gsub("^/+|/+$", "", x)
+}
+
 # vector_to_count_table --------------------------------------------------------
 vector_to_count_table <- function(x)
 {
