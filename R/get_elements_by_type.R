@@ -44,7 +44,7 @@ get_elements_by_type <- function(x, result = NULL, dbg = TRUE)
 # extract_by_path --------------------------------------------------------------
 extract_by_path <- function(x, paths)
 {
-  stopifnot(is.list(x))
+  stopifnot(is.recursive(x))
   
   paths %>%
     
