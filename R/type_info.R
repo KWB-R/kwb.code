@@ -38,13 +38,17 @@ info_to_text <- function(info)
       kwb.utils::commaCollapsed()
   }
   
-  sprintf(
-    paste0(#"type|mode|class|length|is: ", 
-      "%s|%s|%s|%d|%s"), 
-    collapse("type"),
-    collapse("mode"),
-    collapse("class"), 
-    collapse("length"),
-    collapse("is")
+  #prefix <- "type|mode|class|length|is: "
+  prefix <- NULL
+  
+  paste0(
+    prefix, 
+    paste(collapse = "|", c(
+      collapse("type"),
+      collapse("mode"),
+      collapse("class"), 
+      collapse("length"),
+      collapse("is")
+    )) 
   )
 }
