@@ -155,9 +155,9 @@ parsed. String constants that are used in the script are returned.</p>
 <code class="sourceCode R"><span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/find_string_constants.html">find_string_constants</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Splitting paths ... ok. (0.00 secs) </span></span>
 <span><span class="co">#&gt; Removing the first 8 path segments ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">string_constants</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -443,25 +443,7 @@ tree.</p>
 <span></span>
 <span><span class="co"># Show all code blocks in curly braces</span></span>
 <span><span class="va">elements</span><span class="op">[[</span><span class="st">"language|call|{|2|"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;     cat("***", ...)</span></span>
-<span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;     cat("***", ..., "\n")</span></span>
-<span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;     catIf(dbg, "*** ok.\n")</span></span>
-<span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[4]]</span></span>
-<span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;     catIf(dbg, "***", ..., "... ")</span></span>
-<span><span class="co">#&gt; }</span></span></code></pre></div>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get_full_function_info">get_full_function_info()<a class="anchor" aria-label="anchor" href="#get_full_function_info"></a>
@@ -728,9 +710,9 @@ scripts:</p>
 <p>What packages are used in the scripts?</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_names_of_used_packages.html">get_names_of_used_packages</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Analysing /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>This function simply looks for calls to <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. It
 does not take into account functions that are called with
@@ -862,9 +844,9 @@ does not take into account functions that are called with
 <span>  <span class="va">root</span>, </span>
 <span>  packages <span class="op">=</span> <span class="st">"kwb.utils"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span><span class="co">#&gt; 3 scripts have been parsed.</span></span>
 <span><span class="co">#&gt; Checking usage of kwb.utils ... </span></span>
 <span><span class="co">#&gt; ok. (0.03 secs)</span></span></code></pre></div>
@@ -994,9 +976,9 @@ does not take into account functions that are called with
 <code class="sourceCode R"><span><span class="va">string_constants</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/get_string_constants_in_scripts.html">get_string_constants_in_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Splitting paths ... ok. (0.00 secs) </span></span>
 <span><span class="co">#&gt; Removing the first 8 path segments ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span></code></pre></div>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">string_constants</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -1160,9 +1142,9 @@ values is not</td>
 </h2>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="../reference/parse_scripts.html">parse_scripts</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/log.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/main.R ... ok. (0.00 secs) </span></span>
-<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmwfxQR/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/log.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/main.R ... ok. (0.00 secs) </span></span>
+<span><span class="co">#&gt; Reading /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpj7Sdfo/test/plot_file_distribution.R ... ok. (0.00 secs)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 3</span></span>
