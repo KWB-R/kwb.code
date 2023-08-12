@@ -38,34 +38,34 @@ analyse <- function(x, path = "")
 }
 
 # type_info --------------------------------------------------------------------
-type_info <- function(x, as.character = FALSE)
+type_info <- function(x, as_character = FALSE)
 {
   #shorten <- function(x) kwb.utils::shorten(x, max_chars = 30L)
   shorten <- function(x) paste(substr(x, 1, 30), "...")
   
   text <- as.character(x)
   
+  mode_x <- mode(x)
+  class_x <- class(x)
+  
   info <- list(
     type = typeof(x),
-    mode = mode(x),
-    class = class(x), 
+    mode = mode_x,
+    class = class_x, 
     length = length(x),
     text = shorten(paste0("[", seq_along(text), "]", text, collapse = "")),
     is = if (length(x) == 1L) {
       suppressWarnings(is_what(x, silent = TRUE))
-    }
+    },
+    n_modes = length(mode_x),
+    n_classes = length(class_x)
   )
-  
-  info <- c(info, list(
-    n_modes = length(info$mode),
-    n_classes = length(info$class)
-  ))
-  
-  if (! as.character) {
-    return(info)
+
+  if (as_character) {
+    info_to_text(info)
+  } else {
+    info
   }
-  
-  info_to_text(info)
 }
 
 # info_to_text -----------------------------------------------------------------
