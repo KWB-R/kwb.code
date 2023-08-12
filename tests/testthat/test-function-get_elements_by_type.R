@@ -8,7 +8,7 @@ test_that("get_elements_by_type() works", {
   
   x <- parse(text = "square <- function(x) x * x")
   
-  expect_output(result <- f(x))
+  result <- f(x)
   
   expect_type(result, "list")
   expect_true("language|call|<-|3|" %in% names(result))

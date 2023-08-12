@@ -41,6 +41,12 @@ get_function_names_matching <- function(pattern = NULL, package = "base")
   grep(pattern, function_names, value = TRUE)
 }
 
+# get_is_function_names --------------------------------------------------------
+get_is_function_names <- function()
+{
+  get_function_names_matching("^is\\.")
+}
+
 # is_what ----------------------------------------------------------------------
 is_what <- function(
   x, 
@@ -59,14 +65,13 @@ is_what <- function(
     # "is.na",
     # "is.na.data.frame" # returns a matrix
   ),
-  silent = FALSE
+  dbg = FALSE
 )
 {
   #  stopifnot(length(x) == 1L)
 
   # Get names of is.* functions within the base package
-  pattern <- "^is\\."
-  is_functions <- get_function_names_matching(pattern)
+  is_functions <- get_is_function_names()
   
   # Which functions are not applicable, i.e. have not exactly one argument "x"
   is_applicable <- sapply(lapply(is_functions, arg_names), identical, "x")
@@ -78,18 +83,25 @@ is_what <- function(
   # Call all remaining is.* functions to x
   is_results <- sapply(is_functions, function(f) {
     
-    result <- try(do.call(f, list(x), quote = TRUE), silent = silent)
+    suppressWarnings(
+      result <- try(
+        expr = do.call(f, list(x), quote = TRUE), 
+        silent = TRUE
+      )
+    )
 
     cat_error <- function(what) {
-      cat_formatted("%s(x) returned %s. Returning FALSE.\n", f, what)
-    } 
+      if (dbg) {
+        cat_formatted("%s(x) returned %s. Returning FALSE.\n", f, what)
+      }
+    }
     
-    if (inherits(result, "try-error")) {
+    if (kwb.utils::isTryError(result)) {
       cat_error("an error")
       return(FALSE)
     }
     
-    if (!isTRUE(result) && !isFALSE(result)) {
+    if (!identical(result, TRUE) && !identical(result, FALSE)) {
       cat_error("neither TRUE nor FALSE")
       return(FALSE)
     }
@@ -98,7 +110,7 @@ is_what <- function(
   })
   
   # Return the names (without "is.") of functions that returned TRUE  
-  gsub(pattern, "", names(which(is_results)))
+  gsub("^is\\.", "", names(which(is_results)))
 }
 
 # remove_first_and_last_slash --------------------------------------------------
