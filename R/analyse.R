@@ -51,7 +51,7 @@ type_info <- function(x, as_character = FALSE)
     class = class_x, 
     length = length(x),
     text = shorten(paste0("[", seq_along(text), "]", text, collapse = "")),
-    is = if (length(x) == 1L) is_what(x),
+    is = is_what(x),
     n_modes = length(mode_x),
     n_classes = length(class_x)
   )
