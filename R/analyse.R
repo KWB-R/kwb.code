@@ -17,15 +17,9 @@
 #' str(result, 3)
 analyse <- function(x, path = "")
 {
-  info <- type_info(x)
-  
-  # result <- list(
-  #   self = info_to_text(info)
-  # )
-  
-  result <- info
+  result <- type_info(x)
+  result[["fulltype"]] <- info_to_text(result)
   result[["path"]] <- path
-  result[["fulltype"]] <- info_to_text(info)
   
   if (is.recursive(x)) {
     
