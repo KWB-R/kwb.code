@@ -35,7 +35,7 @@ for (url in urls) {
   download.file(url, file.path(targetdir, basename(url)))
 }
 
-# By default, all R scripts below the root are parse
+# By default, all R scripts below the root are parsed
 trees <- parse_scripts(root = targetdir)
 
 # All elements of trees are expressions
