@@ -26,6 +26,7 @@ find_weaknesses_in_scripts <- function(
   stopifnot(all(is_expression | is_error))
   
   # Remove scripts that could not be parsed by setting elements to NULL first
+  # and excluding NULL second (just to use its reporting)
   x[is_error] <- lapply(which(is_error), function(i) NULL)
   x <- kwb.utils::excludeNULL(x)
   
@@ -69,7 +70,7 @@ find_weaknesses_in_scripts <- function(
   is_relevant <- 
     nchar(as.character(strings$expression)) >= min_duplicate_string_length & 
     strings$frequency >= min_duplicate_frequency
-
+  
   if (any(is_relevant)) {
     results <- c(results, list(strings[is_relevant, ]))
   }
@@ -84,9 +85,9 @@ find_code_snippets <- function(
 {
   matches <- to_matches_function(check_function, type = type)
   
-  result <- summarise_extracted_matches(
-    extract_from_parse_tree(x, matches = matches)
-  )
+  result <- x %>%
+    extract_from_parse_tree(matches = matches) %>%
+    summarise_extracted_matches()
   
   if (nrow(result) == 0L) {
     return(NULL)
@@ -104,59 +105,55 @@ to_matches_function <- function(check_function, type = "self", max_chars = 50L)
       return(FALSE)
     }
     
-    structure(
-      TRUE, 
-      name = kwb.utils::shorten(max_chars = max_chars, kwb.utils::collapsed(
-        if (identical(type, "self")) {
-          deparse(x)
-        } else if (identical(type, "element_2")) {
-          deparse(x[[2L]])
-        } else if (identical(type, "parent")) {
-          deparse(parent)
-        } else {
-          stop("unknown type: ", type)
-        }
-      ))
-    )
+    object <- if (identical(type, "self")) {
+      x
+    } else if (identical(type, "element_2")) {
+      x[[2L]]
+    } else if (identical(type, "parent")) {
+      parent
+    } else {
+      stop("unknown type: ", type)
+    }
+    
+    name <- deparse(object) %>%
+      kwb.utils::collapsed() %>%
+      kwb.utils::shorten(max_chars)
+    
+    structure(TRUE, name = name)
   }
+  
 }
 
 # is_logical_constant_false ----------------------------------------------------
 is_logical_constant_false <- function(x, type = "short")
 {
-  is_logical_constant(x, type, use_true = FALSE)
+  is_logical_constant(x, type, logicals = FALSE)
 }
 
 # is_logical_constant_true -----------------------------------------------------
 is_logical_constant_true <- function(x, type = "short")
 {
-  is_logical_constant(x, type, use_false = FALSE)
+  is_logical_constant(x, type, logicals = TRUE)
 }
 
 # is_logical_constant ----------------------------------------------------------
-is_logical_constant <- function(
-    x, 
-    type = "short", 
-    use_false = TRUE, 
-    use_true = TRUE
-)
+is_logical_constant <- function(x, type = "short", logicals = c(FALSE, TRUE))
 {
   if (!is.symbol(x)) {
     return(FALSE)
   }
-
-  deparse(x) %in% deparsed_logical_values(type, use_false, use_true)
+ 
+  deparse(x) %in% deparsed_logical_values(type, logicals)
 }
 
 # deparsed_logical_values ------------------------------------------------------
 deparsed_logical_values <- function(
     type = c("short", "long", "either")[3L],
-    use_false = TRUE,
-    use_true = TRUE
+    logicals = c(FALSE, TRUE)
 )
 {
   values <- c("F", "T", "FALSE", "TRUE")
-  use_false_true <- c(use_false, use_true)
+  use_false_true <- c(FALSE %in% logicals, TRUE %in% logicals)
   
   if (type == "short") {
     values[1:2][use_false_true]
@@ -217,41 +214,39 @@ is_bad_function_name <- function(x)
 # is_comparison_with_false -----------------------------------------------------
 is_comparison_with_false <- function(x)
 {
-  is_comparison_with_logical(x, use_true = FALSE)
+  is_comparison_with_logical(x, logicals = FALSE)
 }
 
 # is_comparison_with_true ------------------------------------------------------
 is_comparison_with_true <- function(x)
 {
-  is_comparison_with_logical(x, use_false = FALSE)
+  is_comparison_with_logical(x, logicals = TRUE)
 }
 
 # is_comparison_with_logical ---------------------------------------------------
-is_comparison_with_logical <- function(x, use_false = TRUE, use_true = TRUE)
+is_comparison_with_logical <- function(x, logicals = c(FALSE, TRUE))
 {
   if (!is.call(x)) {
     return(FALSE)
   }
-
+  
   operator <- deparse(x[[1]])
   
   operator %in% c("==", "!=") && (
-    is_logical_constant(x[[2]], type = "either", use_false, use_true) ||
-      is_logical_constant(x[[3]], type = "either", use_false, use_true)
+    is_logical_constant(x[[2]], type = "either", logicals) ||
+      is_logical_constant(x[[3]], type = "either", logicals)
   )
 }
 
 # summarise_extracted_matches --------------------------------------------------
 summarise_extracted_matches <- function(x)
 {
-  result <- kwb.utils::excludeNULL(x, dbg = FALSE)
-  
-  result <- lapply(result, function(xx) {
-    stats::setNames(
-      as.data.frame(table(xx)),
-      c("expression", "frequency")
-    )
-  })
-  
-  dplyr::bind_rows(result, .id = "file")
+  x %>%
+    kwb.utils::excludeNULL(dbg = FALSE) %>%
+    lapply(function(y) {
+      table(y) %>%
+        as.data.frame() %>%
+        stats::setNames(c("expression", "frequency"))
+    }) %>%
+    dplyr::bind_rows(.id = "file")
 }

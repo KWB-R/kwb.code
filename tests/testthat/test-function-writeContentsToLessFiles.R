@@ -8,5 +8,5 @@ test_that("writeContentsToLessFiles() works", {
   
   capture.output(f(list("a", "b"), target_dir, "f"))
   
-  expect_true(all(c("f__v_1.txt", "f__v_2.txt") %in% dir(target_dir)))
+  expect_true(all(c("f__unique-1.txt", "f__unique-2.txt") %in% dir(target_dir)))
 })

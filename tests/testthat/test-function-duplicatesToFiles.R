@@ -22,6 +22,6 @@ test_that("duplicatesToFiles() works", {
   capture.output(path <- f(trees, fun_duplicates, function_name = "f1"))
   
   expect_true(file.exists(path))
-  expect_true(length(dir(path, "^f1")) > 0L)
+  expect_true(any(grepl("^f1__", basename(path))))
 
 })

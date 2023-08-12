@@ -1,6 +1,8 @@
 test_that("get_elements_by_type() works", {
 
-  f <- function(...) kwb.code:::get_elements_by_type(..., dbg = FALSE)
+  f <- function(...) {
+    kwb.code:::get_elements_by_type(..., dbg = FALSE)
+  }
   
   expect_error(f())
   
@@ -9,5 +11,7 @@ test_that("get_elements_by_type() works", {
   result <- f(x)
   
   expect_type(result, "list")
-  expect_true("language|call|<-|3|" %in% names(result))
+  
+  name <- "language|call|<-|3|call,language,recursive"
+  expect_true(name %in% names(result))
 })
