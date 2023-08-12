@@ -23,9 +23,12 @@ analyse <- function(x, path = "")
   
   if (is.recursive(x)) {
     
-    result[["children"]] <- lapply(seq_along(x), function(i) {
-      analyse(x[[i]], path = paste(path, i, sep = "/"))
-    })
+    result[["children"]] <- lapply(
+      X = seq_along(x), 
+      FUN = function(i) {
+        analyse(x[[i]], path = paste0(path, "/", i))
+      }
+    )
   }
   
   result  
