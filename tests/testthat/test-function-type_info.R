@@ -6,8 +6,8 @@ test_that("type_info() works", {
   expect_error(f())
 
   check_result <- function(x) {
-    expect_type(result, "list")
-    expect_identical(names(result), c(
+    expect_type(x, "list")
+    expect_identical(names(x), c(
       "type", 
       "mode", 
       "class", 
