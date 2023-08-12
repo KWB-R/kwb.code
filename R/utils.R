@@ -28,6 +28,19 @@ filter_for <- function(x, FUN.filter, ...)
   x[unlist(selected)]
 }
 
+# get_function_names_matching --------------------------------------------------
+get_function_names_matching <- function(pattern = NULL, package = "base")
+{
+  # Get names of functions within the package
+  function_names <- ls(getNamespace(package))
+  
+  if (is.null(pattern)) {
+    return(function_names)
+  }
+  
+  grep(pattern, function_names, value = TRUE)
+}
+
 # is_what ----------------------------------------------------------------------
 is_what <- function(
   x, 
@@ -50,13 +63,11 @@ is_what <- function(
 )
 {
   #  stopifnot(length(x) == 1L)
-  
-  # Get names of functions within the base package
-  base_functions <- ls(getNamespace("base"))
-  
-  # Find is.* functions
-  is_functions <- base_functions[startsWith(base_functions, "is.")]
 
+  # Get names of is.* functions within the base package
+  pattern <- "^is\\."
+  is_functions <- get_function_names_matching(pattern)
+  
   # Which functions are not applicable, i.e. have not exactly one argument "x"
   is_applicable <- sapply(lapply(is_functions, arg_names), identical, "x")
   non_applicable <- is_functions[which(!is_applicable)]
@@ -87,7 +98,7 @@ is_what <- function(
   })
   
   # Return the names (without "is.") of functions that returned TRUE  
-  gsub("^is.", "", names(which(is_results)))
+  gsub(pattern, "", names(which(is_results)))
 }
 
 # remove_first_and_last_slash --------------------------------------------------
